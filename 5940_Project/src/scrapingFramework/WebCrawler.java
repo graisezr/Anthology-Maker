@@ -24,6 +24,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class WebCrawler {
 
     public static void main(String[] args) {
+        System.out.println("Scraping started...");
+        
+        int k = 11;
+
         // csv
         String csvFilePath = "poem_data.csv";
 
@@ -64,7 +68,7 @@ public class WebCrawler {
 
 //      String link = "http://www.famouspoetsandpoems.com/search/1/poems/";
 
-            for (int i = 1; i < 10; i++) {
+            for (int i = 1; i < k; i++) {
 
                 // Navigate to the website
 
@@ -93,7 +97,7 @@ public class WebCrawler {
                 }
 
                 for (String target : targets) {
-                    System.out.println(target);
+//                    System.out.println(target);
                 }
 
                 for (String target : targets) {
@@ -121,7 +125,7 @@ public class WebCrawler {
 
                     csvWriter.append(",");
 
-                    System.out.println(poemTitleString);
+//                    System.out.println(poemTitleString);
 
                     // poem poem text
                     WebElement poemContent = driver.findElement(By.cssSelector(
@@ -132,10 +136,12 @@ public class WebCrawler {
                     // append to CSV file
                     csvWriter.append(poemContentString);
 
-                    System.out.println(poemContent.getText());
-
-                    System.out.println();
+//                    System.out.println(poemContent.getText());
+//
+//                    System.out.println();
                 }
+                
+                System.out.println(i + " page(s) out of " + k + " scraped...");
             }
 
             // Loop through each poem and print its content
@@ -174,6 +180,8 @@ public class WebCrawler {
             driver.quit();
 
             csvWriter.close();
+            
+            System.out.println("Scraping complete!");
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
