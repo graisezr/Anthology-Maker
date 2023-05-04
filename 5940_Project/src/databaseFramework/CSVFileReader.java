@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import com.opencsv.CSVReader;
@@ -13,80 +15,57 @@ import com.opencsv.exceptions.CsvValidationException;
 
 public class CSVFileReader {
 
-    String csvFile = "poem_data.csv";
-
     public CSVFileReader() {
+        
     }
 
-    public static void readFile(String csvFile) {
-        
-        //Database db = new Database();
+    public static HashMap<String, List<Poem>> readCSVFile(String fileName) {
+        //key: author
+        //value: list of poems associated with that author 
+        HashMap<String, List<Poem>> map = new HashMap<String, List<Poem>>();
 
         try {
-            CSVReader csvReader = new CSVReader(new FileReader(csvFile));
-
+            CSVReader csvReader = new CSVReader(new FileReader(fileName));
+            
+            //read all data in CSV file at once
             List<String[]> rows = csvReader.readAll();
-
-            for (String[] row : rows) {
-                String author = row[0];
-                String title = row[1];
-                String text = row[2];
+            
+            //remove the header file (column titles)
+            rows.remove(0);
+            
+            //iterate through each row in CSV file
+            for (String[] arr : rows) {
+                // obtain the author, title, and poem text for each row
+                String author = arr[0];
+                String title = arr[1];
+                String content = arr[2];
                 
-                //create poem object here
-                // Poem poem = new Poem(author, title, text);
-                
-                //add it to a database [Abigail]
-               
-                
-                System.out.println();
-
-                System.out.println(author);
-                System.out.println(title);
-                
-                System.out.println("------------------");
-
-                System.out.println(text);
+                List<Poem> poems = null;
+                if (map.containsKey(author)) {
+                    poems = map.get(author);
+                } else {
+                    //if author does not exist yet, create a new list of poems 
+                    poems = new ArrayList<Poem>();
+                }
+                //create new Poem object and add it to list of poems associated with that author
+                poems.add(new Poem(author, title, content));
+                map.put(author, poems);
             }
-
-//            while ((nextRecord = csvReader.readNext()) != null) {
-//                for (String cell : nextRecord) {
-//                    System.out.print(cell + "\t");
-//                }
-//            }
-
-            // don't read the header file
-//            br.readLine();
-
-//            while ((line = br.readLine()) != null) {
-//
-//                // use comma as separator
-//                String[] values = line.split(csvSeparator);
-//                
-//                System.out.println(Arrays.toString(values));
-//
-//                System.out.println("Author: " + values[0] + "\n" + " Title: " + values[1] + "\n" + " Content: "
-//                        + values[2] + "\n");
-//            }
-
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (CsvValidationException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (CsvException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
+        return map;
     }
 
     public static void main(String[] args) {
-        String csvFile = "poem_data.csv";
-        CSVFileReader.readFile(csvFile);
-
+        HashMap<String, List<Poem>> map = readCSVFile("poem_data.csv");
+        for (String key : map.keySet()) {
+            List<Poem> poems = map.get(key);
+            for (Poem p : poems) {
+                System.out.println(p.getAuthor());
+            }
+        }
     }
 }

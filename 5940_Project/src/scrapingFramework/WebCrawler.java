@@ -22,8 +22,8 @@ public class WebCrawler {
 
         System.out.println("Scraping started...");
 
-        // k represents the number of pages that we wish to scrape (exclusive)
-        int k = 11;
+        // k represents the number of pages that we wish to scrape (inclusive)
+        int k = 10;
 
         String csvFilePath = "poem_data.csv";
 
@@ -57,7 +57,7 @@ public class WebCrawler {
 
 //      String link = "http://www.famouspoetsandpoems.com/search/1/poems/";
 
-            for (int i = 1; i < k; i++) {
+            for (int i = 1; i == k; i++) {
 
                 // Navigate to the website
                 String url = "http://www.famouspoetsandpoems.com/search/" + Integer.toString(i) + "/poems/";
@@ -110,7 +110,7 @@ public class WebCrawler {
                     // new column
                     csvWriter.append(",");
 
-//                    System.out.println(poemTitleString);
+//                  System.out.println(poemTitleString);
 
                     // poem poem text
                     WebElement poemContent = driver.findElement(By.cssSelector(
@@ -122,48 +122,17 @@ public class WebCrawler {
                     csvWriter.append(poemContentString);
 
 //                    System.out.println(poemContent.getText());
-//
+
 //                    System.out.println();
                 }
 
                 System.out.println(i + " page(s) out of " + k + " scraped...");
             }
 
-            // Loop through each poem and print its content
-//        for (WebElement poemLink : poemLinks) {
-//            String poemTitle = poemLink.getText();
-//            
-//            System.out.println(poemTitle);
-//
-//            // Click on the poem link to navigate to its page
-//            poemLink.click();
-
-//            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("your-css-selector")));
-
-            // Find the author
-//            WebElement poemAuthor = driver.findElement(By.cssSelector("div td span"));
-//            System.out.println(poemAuthor.getText());
-
-            // Find the actual poem
-//            WebElement poemContent = driver.findElement(By.cssSelector("div:nth-child(5)"));
-//            System.out.println(poemContent.getText());
-
-            // Navigate back to the poems page
-//            driver.navigate().back();
-//        }
-
-//        driver.manage().window().maximize();
-
-//
-//        // Print out each title
-//        for (WebElement title : titles) {
-//            System.out.println(title.getText());
-//        }
-//
             // Close the browser
             driver.quit();
-
+            
+            // Close CSV writer
             csvWriter.close();
 
             System.out.println("Scraping complete!");

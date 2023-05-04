@@ -91,5 +91,6 @@
 	<classpathentry kind="lib" path="/Users/milanfilo/Desktop/slf4j-nop-2.0.7.jar"/>
 	<classpathentry kind="lib" path="/Users/milanfilo/Desktop/OpenCSV Library/opencsv-5.7.1.jar"/>
 	<classpathentry kind="lib" path="/Users/milanfilo/Desktop/Apache/commons-lang3-3.12.0/commons-lang3-3.12.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
