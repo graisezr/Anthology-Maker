@@ -1,34 +1,30 @@
-//Git commit test
-
 package scrapingFramework;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
+/**
+ * Web crawling and scraping class that scrapes poem data.
+ * 
+ * @author milanfilo
+ *
+ */
 public class WebCrawler {
 
     public static void main(String[] args) {
+
         System.out.println("Scraping started...");
-        
+
+        // k represents the number of pages that we wish to scrape (exclusive)
         int k = 11;
 
-        // csv
         String csvFilePath = "poem_data.csv";
 
         try {
@@ -43,10 +39,8 @@ public class WebCrawler {
             // Set the path to the ChromeDriver executable
             System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
 
+            // Chrome options
             ChromeOptions options = new ChromeOptions();
-            
-            
-            //Chrome options
 
             options.addArguments("--headless");
             options.addArguments("--disable-gpu");
@@ -59,19 +53,13 @@ public class WebCrawler {
 //        options.addArguments("start-maximized");
 
             // Launch Chrome browser
-
             WebDriver driver = new ChromeDriver(options);
-
-            // defining browser and adding the “ — headless” argument
-
-//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
 //      String link = "http://www.famouspoetsandpoems.com/search/1/poems/";
 
             for (int i = 1; i < k; i++) {
 
                 // Navigate to the website
-
                 String url = "http://www.famouspoetsandpoems.com/search/" + Integer.toString(i) + "/poems/";
                 driver.get(url);
 
@@ -81,48 +69,45 @@ public class WebCrawler {
 
 //        WebElement ad = driver.findElement(By.cssSelector(".g-xqpa52"));
 
-                // Find the dynamic table element
-
-                // Find all the poem titles and URLs in the dynamic table
-
-//        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("td td div a")));
-
                 List<WebElement> poemLinks = driver.findElements(By.cssSelector("td td div a"));
                 poemLinks.remove(0);
 
                 ArrayList<String> targets = new ArrayList<String>();
-                // collect targets locations
+
+                // collect targets which are href (HTML attributes) used to specify the URL of
+                // the page that the link goes to
+                // this is where we crawl
                 for (WebElement link : poemLinks) {
                     targets.add(link.getAttribute("href"));
                 }
 
+                // do what is needed in the target i.e. scrape the data
                 for (String target : targets) {
-//                    System.out.println(target);
-                }
-
-                for (String target : targets) {
+//                  System.out.println(target);
                     driver.get(target);
-                    // do what is needed in the target
 
                     // get poem author
                     WebElement poemAuthor = driver.findElement(By.cssSelector("div[align='left'] span span"));
-
                     String poemAuthorString = poemAuthor.getText().replaceAll("by", "").trim();
 
-                    // append to CSV file
+                    // append poem's author to CSV file
                     csvWriter.append(poemAuthorString);
+
+                    // new column
                     csvWriter.append(",");
 
                     // get poem title
                     WebElement poemTitle = driver.findElement(By.cssSelector("div > span"));
                     String[] poemTitleArray = poemTitle.getText().split(poemAuthor.getText());
 
+                    // reformat poem title for csv file
                     String poemTitleString = poemTitleArray[0];
                     poemTitleString = "\"" + poemTitleString.replace("\"", "\"\"") + "\"";
 
-                    // append to CSV file
+                    // append poem title to CSV file
                     csvWriter.append(poemTitleString);
 
+                    // new column
                     csvWriter.append(",");
 
 //                    System.out.println(poemTitleString);
@@ -133,14 +118,14 @@ public class WebCrawler {
                     String poemContentString = poemContent.getText();
                     poemContentString = "\"" + poemContentString.replace("\"", "\"\"") + "\"\n";
 
-                    // append to CSV file
+                    // append poem's content to CSV file
                     csvWriter.append(poemContentString);
 
 //                    System.out.println(poemContent.getText());
 //
 //                    System.out.println();
                 }
-                
+
                 System.out.println(i + " page(s) out of " + k + " scraped...");
             }
 
@@ -180,25 +165,12 @@ public class WebCrawler {
             driver.quit();
 
             csvWriter.close();
-            
+
             System.out.println("Scraping complete!");
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-        // create CSV file
-
-//        FileWriter csvWriter = new FileWriter(job_Search.replace(" ","")+".csv");
-//        csvWriter.append("JobTitle");
-//        csvWriter.append(",");
-//        csvWriter.append("JobCompanyName");
-//        csvWriter.append(",");
-//        csvWriter.append("JobLocation");
-//        csvWriter.append(",");
-//        csvWriter.append(iJob.toString());
-//        csvWriter.append("\n");
 
     }
 
