@@ -11,24 +11,28 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 public class DataBaseManage {
-    
-    //we will build our hashmaps off of this list
-    static List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
-    
-    //Hashmap 1
+
+    // we will build our hashmaps off of this list
+    private static List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
+
+    // Hashmap 1
     static HashMap<String, List<Poem>> authorMap;
-    
-    //Hashmap 2
-    static HashMap<String, List<Poem>> themeMap;
-    
-    //Hashmap 3
-    static HashMap<String, List<Poem>> formMap; 
-    
-    
+
+    // Hashmap 2
+    private static HashMap<String, List<Poem>> themeMap;
+
+    // Hashmap 3
+    private static HashMap<String, List<Poem>> formMap;
+
+    // set of poems that were already written
+    private static Set<Poem> writtenPoems = new HashSet<Poem>();
+
     public static void createAuthorMap(List<Poem> poems) {
 //        if (map.containsKey(author)) {
 //            poems = map.get(author);
@@ -41,21 +45,23 @@ public class DataBaseManage {
 //        map.put(author, poems);
 //    }
     }
-    
+
     public static void createThemeMap(List<Poem> poems) {
-        
+        // theme variable: this.theme
+
     }
-    
+
     public static void createFormMap(List<Poem> poems) {
-        
+        // theme variable: this.form
+
     }
-    
+
     public static void searchByTheme(Scanner sc) {
-  
+        // search through theme hashmap
     }
-    
+
     public static void searchByForm(Scanner sc) {
-    
+        // search through form hashmap
     }
 
     public static void searchByAuthor(Scanner sc) {
@@ -67,8 +73,8 @@ public class DataBaseManage {
                 poems.addAll(authorMap.get(key));
             }
         }
-        //revisit for other methods
-        if(poems.isEmpty()) {
+        // revisit for other methods
+        if (poems.isEmpty()) {
             System.out.println("This author does not exist. Please try again");
         }
 
@@ -107,20 +113,33 @@ public class DataBaseManage {
     }
 
     public static void write(List<Poem> poems, String msg) {
-        try {
-            FileWriter fw = new FileWriter(new File("poem_anthology.txt"), true);
-            fw.write("\n");
-            fw.write(msg);
-            int index = 1;
-            fw.write("Number of poems found in current search: " + poems.size() + "\n");
-            for (Poem p : poems) {
-                fw.write("-----------------" + index + "----------------\n");
-                fw.write(p.toString() + "\n");
-                index++;
+        //check if poem has already been written
+        for (Poem poem : poems) {
+            if (!writtenPoems.contains(poem)) {
+                try {
+                    FileWriter fw = new FileWriter(new File("poem_anthology.txt"), true);
+                    fw.write("\n");
+                    fw.write(msg);
+                    int index = 1;
+                    fw.write("Number of poems found in current search: " + poems.size() + "\n");
+                        fw.write("-----------------" + index + "----------------\n");
+                        fw.write(poem.toString() + "\n");
+                        index++;
+                        
+                        //add poem to poems that are already written in our anthology
+                        
+                        writtenPoems.add(poem);
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
-            fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+//            else {
+//                //add message: "this poem is already in your anthology"
+//                System.out.println(poem.getTitle() + " by " + poem.getAuthor() + " is already in your anthology.");
+//            }
+
         }
 
     }
