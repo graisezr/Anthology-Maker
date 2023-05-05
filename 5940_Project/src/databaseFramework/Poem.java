@@ -43,6 +43,6 @@ public class Poem {
 
 	@Override
 	public String toString() {
-		return author + "," + title + "," + text;
+		return "Author: " + author + "\nTitle: " + title + "\n" + "\n" + text;
 	}
 }

@@ -59,13 +59,13 @@ public class CSVFileReader {
         return map;
     }
 
-    public static void main(String[] args) {
-        HashMap<String, List<Poem>> map = readCSVFile("poem_data.csv");
-        for (String key : map.keySet()) {
-            List<Poem> poems = map.get(key);
-            for (Poem p : poems) {
-                System.out.println(p.getAuthor());
-            }
-        }
-    }
+//    public static void main(String[] args) {
+//        HashMap<String, List<Poem>> map = readCSVFile("poem_data.csv");
+//        for (String key : map.keySet()) {
+//            List<Poem> poems = map.get(key);
+//            for (Poem p : poems) {
+//                System.out.println(p.getAuthor());
+//            }
+//        }
+//    }
 }
