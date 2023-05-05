@@ -32,21 +32,25 @@ public class DataBaseManage {
     }
 
     public static void menu() {
-        System.out.println("please input 1-4:");
-        System.out.println("1.search by author");
-        System.out.println("2.search by title");
-        System.out.println("3.search by poem content");
-        System.out.println("4.exit");
+        System.out.println("Please input 1-4:");
+        System.out.println("1 - Search poems by author");
+        System.out.println("2 - Search poems by title");
+        System.out.println("3 - Search poems by poem content");
+        System.out.println("4 - Exit");
     }
 
     public static void searchByAuthor(Scanner sc) {
-        System.out.println("please input author:");
+        System.out.println("Please input author:");
         String author = sc.nextLine();
         List<Poem> poems = new ArrayList<Poem>();
         for (String key : map.keySet()) {
             if (key.toLowerCase().contains(author.toLowerCase())) {
-                poems.addAll(map.get(author));
+                poems.addAll(map.get(key));
             }
+        }
+        //revisit for other methods
+        if(poems.isEmpty()) {
+            System.out.println("This author does not exist. Please try again");
         }
 
         String msg = "Search by author " + author + ":" + "\n";
@@ -54,7 +58,7 @@ public class DataBaseManage {
     }
 
     public static void searchByTitle(Scanner sc) {
-        System.out.println("please input title:");
+        System.out.println("Please input poem title:");
         String title = sc.nextLine();
         List<Poem> poems = new ArrayList<Poem>();
         for (String author : map.keySet()) {
@@ -69,7 +73,7 @@ public class DataBaseManage {
     }
 
     public static void searchByPoemContent(Scanner sc) {
-        System.out.println("please input title:");
+        System.out.println("Please input poem content:");
         String title = sc.nextLine();
         List<Poem> poems = new ArrayList<Poem>();
         for (String author : map.keySet()) {
@@ -89,7 +93,7 @@ public class DataBaseManage {
             fw.write("\n");
             fw.write(msg);
             int index = 1;
-            fw.write("total search: " + poems.size() + "\n");
+            fw.write("Number of poems found in current search: " + poems.size() + "\n");
             for (Poem p : poems) {
                 fw.write("-----------------" + index + "----------------\n");
                 fw.write(p.toString() + "\n");
