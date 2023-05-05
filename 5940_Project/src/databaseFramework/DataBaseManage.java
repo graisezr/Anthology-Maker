@@ -1,5 +1,11 @@
 package databaseFramework;
 
+//Build 3 Hashmaps 
+
+//Hashmap 1: Maps authors to list of poems of that author [DONE]
+//Hashmap 2: Maps themes to lisf of poems of that theme
+//Hashmap 3: Maps forms to list of poems of that form
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,43 +15,56 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DataBaseManage {
-
-    static HashMap<String, List<Poem>> map = CSVFileReader.readCSVFile("poem_data.csv");
-
-    public static void main(String[] args) {
-        // takes in user input
-        Scanner sc = new Scanner(System.in);
-        while (true) {
-            menu();
-            int choice = sc.nextInt();
-            sc.nextLine();
-            if (choice == 1) {
-                searchByAuthor(sc);
-            } else if (choice == 2) {
-                searchByTitle(sc);
-            } else if (choice == 3) {
-                searchByPoemContent(sc);
-            } else if (choice == 4) {
-                break;
-            }
-        }
+    
+    //we will build our hashmaps off of this list
+    static List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
+    
+    //Hashmap 1
+    static HashMap<String, List<Poem>> authorMap;
+    
+    //Hashmap 2
+    static HashMap<String, List<Poem>> themeMap;
+    
+    //Hashmap 3
+    static HashMap<String, List<Poem>> formMap; 
+    
+    
+    public static void createAuthorMap(List<Poem> poems) {
+//        if (map.containsKey(author)) {
+//            poems = map.get(author);
+//        } else {
+//            //if author does not exist yet, create a new list of poems 
+//            poems = new ArrayList<Poem>();
+//        }
+//        //create new Poem object and add it to list of poems associated with that author
+//        poems.add(new Poem(author, title, content));
+//        map.put(author, poems);
+//    }
     }
-
-    public static void menu() {
-        System.out.println("Please input 1-4:");
-        System.out.println("1 - Search poems by author");
-        System.out.println("2 - Search poems by title");
-        System.out.println("3 - Search poems by poem content");
-        System.out.println("4 - Exit");
+    
+    public static void createThemeMap(List<Poem> poems) {
+        
+    }
+    
+    public static void createFormMap(List<Poem> poems) {
+        
+    }
+    
+    public static void searchByTheme(Scanner sc) {
+  
+    }
+    
+    public static void searchByForm(Scanner sc) {
+    
     }
 
     public static void searchByAuthor(Scanner sc) {
         System.out.println("Please input author:");
         String author = sc.nextLine();
         List<Poem> poems = new ArrayList<Poem>();
-        for (String key : map.keySet()) {
+        for (String key : authorMap.keySet()) {
             if (key.toLowerCase().contains(author.toLowerCase())) {
-                poems.addAll(map.get(key));
+                poems.addAll(authorMap.get(key));
             }
         }
         //revisit for other methods
@@ -61,8 +80,8 @@ public class DataBaseManage {
         System.out.println("Please input poem title:");
         String title = sc.nextLine();
         List<Poem> poems = new ArrayList<Poem>();
-        for (String author : map.keySet()) {
-            for (Poem p : map.get(author)) {
+        for (String author : authorMap.keySet()) {
+            for (Poem p : authorMap.get(author)) {
                 if (p.getTitle().toLowerCase().contains(title.toLowerCase())) {
                     poems.add(p);
                 }
@@ -74,16 +93,16 @@ public class DataBaseManage {
 
     public static void searchByPoemContent(Scanner sc) {
         System.out.println("Please input poem content:");
-        String title = sc.nextLine();
+        String word = sc.nextLine();
         List<Poem> poems = new ArrayList<Poem>();
-        for (String author : map.keySet()) {
-            for (Poem p : map.get(author)) {
-                if (p.getTextString().toLowerCase().contains(title.toLowerCase())) {
+        for (String author : authorMap.keySet()) {
+            for (Poem p : authorMap.get(author)) {
+                if (p.getTextString().toLowerCase().contains(word.toLowerCase())) {
                     poems.add(p);
                 }
             }
         }
-        String msg = "Search by poem content " + title + ":" + "\n";
+        String msg = "Search by poem content " + word + ":" + "\n";
         write(poems, msg);
     }
 

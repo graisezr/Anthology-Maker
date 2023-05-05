@@ -1,5 +1,8 @@
 package databaseFramework;
 
+
+//class should create a list of poem objects 
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -19,12 +22,15 @@ public class CSVFileReader {
         
     }
 
-    public static HashMap<String, List<Poem>> readCSVFile(String fileName) {
+    public static List<Poem> readCSVFile(String fileName) {
         //key: author
         //value: list of poems associated with that author 
-        HashMap<String, List<Poem>> map = new HashMap<String, List<Poem>>();
+//        HashMap<String, List<Poem>> map = new HashMap<String, List<Poem>>();
+        
+        List<Poem> poems = new ArrayList<Poem>();
 
         try {
+            
             CSVReader csvReader = new CSVReader(new FileReader(fileName));
             
             //read all data in CSV file at once
@@ -40,23 +46,20 @@ public class CSVFileReader {
                 String title = arr[1];
                 String content = arr[2];
                 
-                List<Poem> poems = null;
-                if (map.containsKey(author)) {
-                    poems = map.get(author);
-                } else {
-                    //if author does not exist yet, create a new list of poems 
-                    poems = new ArrayList<Poem>();
-                }
-                //create new Poem object and add it to list of poems associated with that author
-                poems.add(new Poem(author, title, content));
-                map.put(author, poems);
+                
+//              //create new Poem object and add it to list of poems associated with that author
+              poems.add(new Poem(author, title, content));
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (CsvException e) {
             e.printStackTrace();
         }
-        return map;
+        
+        //return list of poems
+    
+        return poems;
     }
 
 //    public static void main(String[] args) {
