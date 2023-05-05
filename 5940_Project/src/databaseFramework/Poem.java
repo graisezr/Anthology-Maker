@@ -1,48 +1,71 @@
 package databaseFramework;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Poem object class.
- * @author 
+ * 
+ * @author
  *
  */
 public class Poem {
-	private String author;
-	private String title;
-	private String text;
+    private String author;
+    private String title;
+    private String text;
+    private List<String> themes;
+    private String form;
 
-	public Poem(String author, String title, String textString) {
-		super();
-		this.author = author;
-		this.title = title;
-		this.text = textString;
-	}
+    private int lineCount;
 
-	public String getAuthor() {
-		return author;
-	}
+    public Poem(String author, String title, String textString) {
+        super();
+        this.author = author;
+        this.title = title;
+        this.text = textString;
+        this.themes = findTheme(textString);
+        this.form = findForm(textString);
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public List<String> findTheme(String text) {
+        // list of constant words
+        List<String> listOfThemes = new ArrayList<String>();
+        return listOfThemes;
+    }
 
-	public String getTextString() {
-		return text;
-	}
+    public String findForm(String text) {
+        
+        String form = "";
+        
+        return form;
+    }
 
-	public void setAuthor(String author) {
-		this.author = author;
-	}
+    public String getAuthor() {
+        return author;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setTextString(String textString) {
-		this.text = textString;
-	}
+    public String getTextString() {
+        return text;
+    }
 
-	@Override
-	public String toString() {
-		return "Author: " + author + "\nTitle: " + title + "\n" + "\n" + text;
-	}
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setTextString(String textString) {
+        this.text = textString;
+    }
+
+    @Override
+    public String toString() {
+        return "Author: " + author + "\nTitle: " + title + "\n" + "\n" + text;
+    }
 }
