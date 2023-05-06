@@ -11,15 +11,7 @@ public class CSVFileReaderTest {
 
     @Test
     public void testReadCSVFile() {
-//        CSVFileReader csvFileReader = new CSVFileReader();
 
-//        HashMap<String, List<Poem>> map = CSVFileReader.readCSVFile("poem_data.csv");
-//        for (String key : map.keySet()) {
-//            List<Poem> poems = map.get(key);
-//            for (Poem p : poems) {
-//                System.out.println(p.getAuthor());
-//            }
-//        }
     }
 
 }
