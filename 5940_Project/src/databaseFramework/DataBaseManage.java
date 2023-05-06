@@ -47,8 +47,21 @@ public class DataBaseManage {
     }
 
     public static void createThemeMap(List<Poem> poems) {
-        // theme variable: this.theme
-
+        // Iterate through the list of poems
+        for (Poem poem : poems) {
+            // Iterate through this poem's theme(s)
+            for (String theme : poem.getThemes()) {
+                // If this theme already featured in themeMap, add this poem as value
+                if (themeMap.containsKey(theme)) {
+                    themeMap.get(theme).add(poem);
+                } else {
+                    // Otherwise add both the theme and poem to the themeMap
+                    List<Poem> themePoemList = new ArrayList<>();
+                    themePoemList.add(poem);
+                    themeMap.put(theme, themePoemList);
+                }
+            }
+        }
     }
 
     public static void createFormMap(List<Poem> poems) {
