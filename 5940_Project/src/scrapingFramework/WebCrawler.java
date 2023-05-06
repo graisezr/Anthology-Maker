@@ -2,8 +2,11 @@ package scrapingFramework;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,6 +19,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
  * @author milanfilo
  *
  */
+
 public class WebCrawler {
 
     public static void main(String[] args) {
@@ -23,12 +27,16 @@ public class WebCrawler {
         System.out.println("Scraping started...");
 
         // k represents the number of pages that we wish to scrape (inclusive)
-        int k = 10;
+        // the website that we are using has 3448 pages
+        int start = 1;
+        int k = 100;
 
         String csvFilePath = "poem_data.csv";
 
         try {
             FileWriter csvWriter = new FileWriter(csvFilePath);
+            //Write out header of CSV file
+            
             csvWriter.append("Author");
             csvWriter.append(",");
             csvWriter.append("Title");
@@ -41,33 +49,38 @@ public class WebCrawler {
 
             // Chrome options
             ChromeOptions options = new ChromeOptions();
-
+            // Chrome browser should run in headless mode, which means that it runs without
+            // a visible user interface.
             options.addArguments("--headless");
+
+            // disables the use of the GPU in Chrome, which can improve performance in
+            // headless mode.
             options.addArguments("--disable-gpu");
+
+            // disables the Chrome sandbox, which is a security feature that helps prevent
+            // malicious code from executing on the system.
             options.addArguments("--no-sandbox");
-//        options.addArguments("--disable-popup-blocking");
-//        options.addArguments("--disable-extensions");
-//        options.addArguments("--disable-infobars");
-//        options.addArguments("--disable-popup-blocking");
-//        options.addArguments("load-extension=/Users/milanfilo/Library/Application Support/Google/Chrome/Profile 2/ghbmnnjooekpmoecnnnilnnbdlolhkhi");
-//        options.addArguments("start-maximized");
+
+            // load extensions: e.g. AdBlocker
+//            options.addArguments(
+//                    "load-extension=/Users/milanfilo/Library/Application Support/Google/Chrome/Profile 2/ghbmnnjooekpmoecnnnilnnbdlolhkhi");
 
             // Launch Chrome browser
             WebDriver driver = new ChromeDriver(options);
+            
+            //increase timeout
+            driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(180));
 
-//      String link = "http://www.famouspoetsandpoems.com/search/1/poems/";
 
-            for (int i = 1; i == k; i++) {
+            // Have Chrome browser navigate through each page to obtain individual links of
+            // poems on that page
+            for (int i = start; i <= k; i++) {
 
                 // Navigate to the website
                 String url = "http://www.famouspoetsandpoems.com/search/" + Integer.toString(i) + "/poems/";
                 driver.get(url);
 
-                // Wait for the page to fully load
-
-//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-
-//        WebElement ad = driver.findElement(By.cssSelector(".g-xqpa52"));
+                // identify individual poem's link using a CSS Selector
 
                 List<WebElement> poemLinks = driver.findElements(By.cssSelector("td td div a"));
                 poemLinks.remove(0);
@@ -76,14 +89,14 @@ public class WebCrawler {
 
                 // collect targets which are href (HTML attributes) used to specify the URL of
                 // the page that the link goes to
-                // this is where we crawl
+                // this is how we tell the driver to crawl to each poem's individual page
                 for (WebElement link : poemLinks) {
                     targets.add(link.getAttribute("href"));
                 }
 
-                // do what is needed in the target i.e. scrape the data
+                // do what is needed in the target (i.e. scrape the of an individual poem's
+                // page)
                 for (String target : targets) {
-//                  System.out.println(target);
                     driver.get(target);
 
                     // get poem author
@@ -112,7 +125,7 @@ public class WebCrawler {
 
 //                  System.out.println(poemTitleString);
 
-                    // poem poem text
+                    // get poem text
                     WebElement poemContent = driver.findElement(By.cssSelector(
                             "body > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(7) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > div:nth-child(5)"));
                     String poemContentString = poemContent.getText();
@@ -120,10 +133,6 @@ public class WebCrawler {
 
                     // append poem's content to CSV file
                     csvWriter.append(poemContentString);
-
-//                    System.out.println(poemContent.getText());
-
-//                    System.out.println();
                 }
 
                 System.out.println(i + " page(s) out of " + k + " scraped...");
@@ -131,7 +140,7 @@ public class WebCrawler {
 
             // Close the browser
             driver.quit();
-            
+
             // Close CSV writer
             csvWriter.close();
 
