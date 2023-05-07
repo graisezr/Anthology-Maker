@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
 
 /**
  * Poem object class. Encapsulates the attributes of a poem
@@ -13,6 +15,9 @@ import java.util.Set;
  * @author
  *
  */
+public class Poem implements IPoem {
+        
+=======
 public class Poem extends IPoem {
     
     private String author;
@@ -36,29 +41,30 @@ public class Poem extends IPoem {
         this.form = findPoemForm(textString);
 
     }
-    
+
     /*
      * Methods
      */
-    
+
     /*
      * Determining a poem's theme.
      */
-    
+
     /**
-     * Gets the themes of a poem by comparing each word of the
-     * poem with the constant HashSet of words associated to a
-     * theme.
-     * @param body of a given poem. 
-     * @return the list of a poem's theme(s). 
+     * Gets the themes of a poem by comparing each word of the poem with the
+     * constant HashSet of words associated to a theme.
+     * 
+     * @param body of a given poem.
+     * @return the list of a poem's theme(s).
      */
     public Set<String> determineThemes(String body) {
         // Initialize list of themes to be returned
+
         Set<String> themes = new HashSet<String>();
         
         // Convert body into an array of words w/o non-alphanumeric characters
         String[] words = body.replaceAll("[^a-zA-Z0-9\\s]", "").split("\\s+");
-        
+
         // Iterate through every word of the poem
         for (String word : words) {
             // Convert this word into lower case
@@ -72,12 +78,13 @@ public class Poem extends IPoem {
                 }
             }
         }
-        
+
         // If no words belonged to any theme, add the theme 'other' to the list
         if (themes.isEmpty()) {
+
             themes.add(getThemesArray()[getThemesArray().length - 1]);
         }
-        
+
         return themes;
     }
 
@@ -88,10 +95,9 @@ public class Poem extends IPoem {
      * @param poem
      * @return poetic form
      */
-    
 
     public String findPoemForm(String poem) {
-        System.out.println(this.getTitle());
+//        System.out.println(this.getTitle());
         List<String> lines = Arrays.asList(poem.split("\\r?\\n"));
         List<Integer> stanzaLineCounts = new ArrayList<>();
         List<List<Integer>> syllableCountsPerLine = new ArrayList<>();
@@ -121,8 +127,8 @@ public class Poem extends IPoem {
         this.stanzaLineCounts = stanzaLineCounts;
         this.syllableCountsPerLine = syllableCountsPerLine;
 
-        System.out.println(
-                "Stanza line counts: " + stanzaLineCounts + "\nSyllable counts per line: " + syllableCountsPerLine);
+//        System.out.println(
+//                "Stanza line counts: " + stanzaLineCounts + "\nSyllable counts per line: " + syllableCountsPerLine);
 
         switch (this.getLineCount()) {
         case 1:
@@ -159,15 +165,15 @@ public class Poem extends IPoem {
             if (stanzaLineCounts.equals(petrarchanSonnetPattern1)) {
                 return "Petrarchan Sonnet";
             }
-        }
-        else if (stanzaCount == 4) {
+        } else if (stanzaCount == 4) {
             if (stanzaLineCounts.equals(petrarchanSonnetPattern2)) {
                 return "Sonnet";
             } else if (stanzaLineCounts.equals(shakeSpeareanSonnetPattern)) {
                 return "Shakespearean Sonnet";
             }
         }
-        //if above isn't satisfied, even though the poem may have 14 lines, it may not be a sonnet
+        // if above isn't satisfied, even though the poem may have 14 lines, it may not
+        // be a sonnet
         return "Free Verse";
     }
 
@@ -253,7 +259,7 @@ public class Poem extends IPoem {
         }
 
     }
-    
+
     ///////////////////////////
 
 //    public int findStanzas(String text) {
@@ -295,6 +301,7 @@ public class Poem extends IPoem {
 //        
 //        return syllables;
 //    }
+    
 
 
     public String getAuthor() {
@@ -308,7 +315,6 @@ public class Poem extends IPoem {
     public String getTextString() {
         return text;
     }
-    
     public Set<String> getThemes() {
         return this.themes;
     }

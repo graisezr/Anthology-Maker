@@ -42,8 +42,8 @@ public class CSVFileReader {
             //iterate through each row in CSV file
             for (String[] arr : rows) {
                 // obtain the author, title, and poem text for each row
-                String author = arr[0];
-                String title = arr[1];
+                String author = arr[0].trim();
+                String title = arr[1].trim();
                 String content = arr[2];
                 
                 

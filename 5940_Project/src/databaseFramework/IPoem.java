@@ -14,6 +14,16 @@ public abstract class IPoem {
     // The data structure that maps themes to words, helping us to determine the themes of poems
     private Map<String, HashSet<String>> themesToWords = new HashMap<>();
     
+//    // Construct the Map of main themes to words
+    public static Map<String, HashSet<String>> THEMES = new HashMap<>() {{
+//            THEMES.put("love", LOVEWORDS);
+//            THEMES.put("death", DEATHWORDS);
+//            THEMES.put("joy", JOYWORDS);
+//            THEMES.put("sadness", SADNESSWORDS);
+//            THEMES.put("war", WARWORDS);
+        }};
+        
+
     // Constant array of themes. Note: 'other' should be last element
     private static String[] themesArray = { "love", "death", "joy", "sadness", "war", "other" }; 
                 
