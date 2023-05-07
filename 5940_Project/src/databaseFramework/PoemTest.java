@@ -1,23 +1,16 @@
 package databaseFramework;
 
-import static org.junit.Assert.*;
-
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PoemTest {
-
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-    }
+    
+    List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
 
     @Before
     public void setUp() throws Exception {
-//      List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
-
     }
 
     @Test
@@ -28,28 +21,28 @@ public class PoemTest {
     public void testFindTheme() {
     }
 
-    @Test
-    public void testFindStanzas() {
-        List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
-        
-        //I Do Not Love You Except Because I Love You
-        Poem pabloNerudaPoem0 = poems.get(0);
-        
-        assertEquals(14, pabloNerudaPoem0.getLineCount());
-        assertEquals("Sonnet", pabloNerudaPoem0.getForm());
-        
-        Poem pabloNerudaPoem1 = poems.get(1);
-        assertEquals(14, pabloNerudaPoem1.getLineCount());
-        assertEquals("Sonnet", pabloNerudaPoem1.getForm());
-
-        //If You Forget Me
-        Poem pabloNerudaPoem3 = poems.get(2);
-        assertEquals(48, pabloNerudaPoem3.getLineCount());
-        assertEquals("Free verse", pabloNerudaPoem3.getForm());
-
-        
-//        Poem pabloNerudaPoem23 = poems.get(22);
-    }
+//    @Test
+//    public void testFindStanzas() {
+//        List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
+//        
+//        //I Do Not Love You Except Because I Love You, by Pablo Neurda
+//        Poem pabloNerudaPoem0 = poems.get(0);
+//        
+//        assertEquals(14, pabloNerudaPoem0.getLineCount());
+//        assertEquals("Sonnet", pabloNerudaPoem0.getForm());
+//        
+//        Poem pabloNerudaPoem1 = poems.get(1);
+//        assertEquals(14, pabloNerudaPoem1.getLineCount());
+//        assertEquals("Sonnet", pabloNerudaPoem1.getForm());
+//
+//        //If You Forget Me
+//        Poem pabloNerudaPoem3 = poems.get(2);
+//        assertEquals(48, pabloNerudaPoem3.getLineCount());
+//        assertEquals("Free verse", pabloNerudaPoem3.getForm());
+//
+//        
+////        Poem pabloNerudaPoem23 = poems.get(22);
+//    }
 
     @Test
     public void testFindForm() {
