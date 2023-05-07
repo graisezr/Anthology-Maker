@@ -3,7 +3,9 @@ package databaseFramework;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Poem object class. Encapsulates the attributes of a poem
@@ -11,12 +13,12 @@ import java.util.List;
  * @author
  *
  */
-public class Poem implements IPoem {
+public class Poem extends IPoem {
     
     private String author;
     private String title;
     private String text;
-    private List<String> themes;
+    private Set<String> themes;
 
     private String form;
     private int lineCount;
@@ -50,9 +52,9 @@ public class Poem implements IPoem {
      * @param body of a given poem. 
      * @return the list of a poem's theme(s). 
      */
-    public List<String> determineThemes(String body) {
+    public Set<String> determineThemes(String body) {
         // Initialize list of themes to be returned
-        List<String> themes = new ArrayList<String>();
+        Set<String> themes = new HashSet<String>();
         
         // Convert body into an array of words w/o non-alphanumeric characters
         String[] words = body.replaceAll("[^a-zA-Z0-9\\s]", "").split("\\s+");
@@ -62,9 +64,9 @@ public class Poem implements IPoem {
             // Convert this word into lower case
             word.toLowerCase();
             // Iterate through the keys in the THEMES map
-            for (String theme : THEMES.keySet()) {
+            for (String theme : getThemesToWords().keySet()) {
                 // If current word belongs to current theme
-                if (THEMES.get(theme).contains(word)) {
+                if (getThemesToWords().get(theme).contains(word)) {
                     // Add this theme to the list of themes
                     themes.add(theme);
                 }
@@ -73,7 +75,7 @@ public class Poem implements IPoem {
         
         // If no words belonged to any theme, add the theme 'other' to the list
         if (themes.isEmpty()) {
-            themes.add(THEMESARRAY[THEMESARRAY.length - 1]);
+            themes.add(getThemesArray()[getThemesArray().length - 1]);
         }
         
         return themes;
@@ -307,7 +309,7 @@ public class Poem implements IPoem {
         return text;
     }
     
-    public List<String> getThemes() {
+    public Set<String> getThemes() {
         return this.themes;
     }
 
