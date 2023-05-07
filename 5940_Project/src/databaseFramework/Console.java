@@ -8,12 +8,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
-// console: only user interaction
-// calls methods in DataBaseManage Class
+/**
+ * Console class allows user to choose what poems they would like to add to
+ * their anthology by interacting with a console-based interface.
+ * 
+ * @author
+ *
+ */
 
 public class Console {
 
-    private static HashSet<Poem> writtenOutPoems = new HashSet<Poem>();
+    // stores poems that have been written out to the user's anthology
+    private static HashSet<Poem> userAnthology = new HashSet<Poem>();
 
     public static void main(String[] args) {
         // takes in user input
@@ -34,35 +40,73 @@ public class Console {
             List<Poem> poemListSelection = new ArrayList<Poem>();
             int choice = sc.nextInt();
             sc.nextLine();
+
+            // search poems by author name
             if (choice == 1) {
-                DataBaseManage.searchByAuthor(sc);
+                poemListSelection = DataBaseManage.searchByAuthor(sc);
+                // if no poems match the criterion
+                if (poemListSelection.isEmpty()) {
+                    System.out.println("This author does not exist.");
+                } else {
+                    // if any poem matches criterion, it is displayed to the user via the
+                    // displayPoemSelection method
+                    // user then chooses which poems they would like to add to the anthology
+                    List<Poem> poemListToWriteOut = displayPoemSelection(poemListSelection);
+                    // write out any poems that user adds to the anthology if they're not in the
+                    // anthology already
+                    DataBaseManage.write(poemListToWriteOut);
+                }
+                // search poems by title
             } else if (choice == 2) {
-                DataBaseManage.searchByTitle(sc);
+                poemListSelection = DataBaseManage.searchByTitle(sc);
+
+                if (poemListSelection.isEmpty()) {
+                    System.out.println("This title does not exist.");
+                } else {
+                    List<Poem> poemListToWriteOut = displayPoemSelection(poemListSelection);
+                    DataBaseManage.write(poemListToWriteOut);
+                }
+                // search poems by content
             } else if (choice == 3) {
-                DataBaseManage.searchByPoemContent(sc);
+                poemListSelection = DataBaseManage.searchByPoemContent(sc);
+
+                if (poemListSelection.isEmpty()) {
+                    System.out.println("This content does not exist.");
+                } else {
+                    List<Poem> poemListToWriteOut = displayPoemSelection(poemListSelection);
+                    DataBaseManage.write(poemListToWriteOut);
+                }
+                // search poems by theme
             } else if (choice == 4) {
-                DataBaseManage.searchByTheme(sc);
+
+                poemListSelection = DataBaseManage.searchByTheme(sc);
+                if (poemListSelection.isEmpty()) {
+                    System.out.println("This theme does not exist.");
+                } else {
+                    List<Poem> poemListToWriteOut = displayPoemSelection(poemListSelection);
+                    DataBaseManage.write(poemListToWriteOut);
+                }
+                // search poems by form
             } else if (choice == 5) {
-
                 poemListSelection = DataBaseManage.searchByForm(sc);
-
-                String msg = "Search by: " + sc + ":" + "\n";
 
                 if (poemListSelection.isEmpty()) {
                     System.out.println("This form does not exist.");
                 } else {
                     List<Poem> poemListToWriteOut = displayPoemSelection(poemListSelection);
+                    DataBaseManage.write(poemListToWriteOut);
                 }
-                // while scanner is "yes", keep adding stuff to the poem
-
-                // write out to file only if user selects Yes after choosing all of their poems
-
             } else if (choice == 6) {
-                sc.close();
+                System.out.println("Exiting Anthology Maker...");
                 break;
             }
         }
+        sc.close();
     }
+
+    /**
+     * Method that prints out menu options for the user to interact with.
+     */
 
     public static void menu() {
         System.out.println("Please input 1-4:");
@@ -74,6 +118,17 @@ public class Console {
         System.out.println("6 - Exit");
     }
 
+    /**
+     * Display Poem Selection takes in a list of poems that is returned from
+     * searching through one of the HashMaps. The poems are displayed to the user in
+     * the console. The user can select which poems they would like to add to their
+     * anthology. These poems are returned by the method.
+     * 
+     * @param poemListSelection
+     * @return list of poems that will be written out to the poem anthology text
+     *         file upon selection by the user.
+     */
+
     public static List<Poem> displayPoemSelection(List<Poem> poemListSelection) {
 
         Scanner sc = new Scanner(System.in);
@@ -81,15 +136,14 @@ public class Console {
         List<Poem> poemListToWriteOut = new ArrayList<Poem>();
 
         while (true) {
-
-            // search by form should return a list
-
-            // print out list
+            System.out.println("---------- RESULTS ----------");
+            // print out list of poems that has been returned by one of the search functions
             for (Poem poem : poemListSelection) {
                 System.out.println("[" + (poemListSelection.indexOf(poem) + 1) + "]" + "\"" + poem.getTitle()
                         + "\", by " + poem.getAuthor());
             }
 
+            // prompt user to choose which poem they would like to view a particular poem
             System.out.println();
             System.out.println("Please input a number between 1-" + poemListSelection.size()
                     + " to view a particular poem. Press 0 to return to the main menu.");
@@ -97,46 +151,51 @@ public class Console {
             int choice = sc.nextInt();
             sc.nextLine();
 
+            // if valid index, print out poem onto the console
             if (choice > 0 && choice <= poemListSelection.size()) {
 
-                // currently selected poem
+                System.out.println("-----------------------------------------------------------");
 
-                System.out.println(poemListSelection.get(choice - 1).getTitle() + "\", by "
+                System.out.println("\"" + poemListSelection.get(choice - 1).getTitle() + "\", by "
                         + poemListSelection.get(choice - 1).getAuthor());
                 System.out.println("\n" + poemListSelection.get(choice - 1).getTextString() + "\n");
 
-                System.out.println("Would you like you to add this poem to your anthology (yes/no)?");
+                System.out.println("-----------------------------------------------------------");
+
+                // prompt user to add poem to their anthology
+                System.out.println("Would you like you to add this poem to your anthology?");
 
                 String response = sc.nextLine().toLowerCase();
 
+                // if user chooses to add poem to the anthology and that poem hasn't been added
+                // to the anthology yet,
+                // the poem is add to a list of poems to be written out to the anthology
+                // back in the main method
                 if ("yes".equals(response)) {
-                    if (!writtenOutPoems.contains(poemListSelection.get(choice - 1))) {
+                    if (!userAnthology.contains(poemListSelection.get(choice - 1))) {
                         // add poem to poems to be written out
                         poemListToWriteOut.add(poemListSelection.get(choice - 1));
-                        writtenOutPoems.add(poemListSelection.get(choice - 1));
+                        userAnthology.add(poemListSelection.get(choice - 1));
                         System.out.println("Poem added to the new list.");
-                        System.out.println("-----------------------------------------------------------");
 
                     } else {
                         System.out.println("This poem is already in your anthology");
-                        System.out.println("-----------------------------------------------------------");
 
                     }
 //                db.deletePoemFromMainList(poemListSelection.get(choice - 1));
 
-                } else if ("no".equals(response)) {
-                    continue;
                 } else {
-                    System.out.println("Invalid response. Please enter 'yes' or 'no'.");
+                    System.out.println("Poem was not added to your anthology.");
+                    System.out.println();
                 }
+                // otherwise, return back to main menu
             } else {
-                System.out.println("Returning back to main menu");
+                System.out.println("Returning back to main menu...");
+                System.out.println();
                 break;
             }
         }
-
+        // return list of poems that user selected to add to their anthology
         return poemListToWriteOut;
-
     }
-
 }

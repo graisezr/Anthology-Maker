@@ -1,11 +1,5 @@
 package databaseFramework;
 
-//Build 3 Hashmaps
-
-//Hashmap 1: Maps authors to list of poems of that author [DONE]
-//Hashmap 2: Maps themes to lisf of poems of that theme
-//Hashmap 3: Maps forms to list of poems of that form.
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -44,6 +38,9 @@ public class DataBaseManage extends IPoem {
     // Initial HashMap mapping themes (e.g., love, death, etc.) to HashSet of words (see IPoem)
     private HashMap<String, HashSet<String>> themesToWords = new HashMap<>();
     
+    // Index used to write out "page" number for each poem in the poem_anthology.txt
+    private static int index = 1;
+    
     /*
      * Constructor
      */
@@ -66,8 +63,28 @@ public class DataBaseManage extends IPoem {
      * Methods
      */
 
+    /**
+     * Creates a HashMap from poem list that maps authors to list of poems of that
+     * author.
+     * 
+     * @param poems : list of Poem Objects generated in CSV filereader.
+     * @return HashMap that maps authors to list of poems of that form.
+     */
     public static HashMap<String, List<Poem>> createAuthorMap(List<Poem> poems) {
+        HashMap<String, List<Poem>> authorMap = new HashMap<String, List<Poem>>();
+        
+        for (Poem poem : poems) {
+            List<Poem> poemList = new ArrayList<Poem>();
+            if (authorMap.containsKey(poem.getAuthor())) {
+                poemList = authorMap.get(poem.getAuthor());
+            } else {
+                poemList = new ArrayList<Poem>();
+            }
+            poemList.add(poem);
+            authorMap.put(poem.getAuthor(), poemList);
+        }
         return authorMap;
+
 //        if (map.containsKey(author)) {
 //            poems = map.get(author);
 //        } else {
@@ -149,20 +166,26 @@ public class DataBaseManage extends IPoem {
         }
     }
 
+    /**
+     * Creates a HashMap from poem list that maps forms to list of poems of that
+     * form.
+     * 
+     * @param poems : list of Poem Objects generated in CSV filereader.
+     * @return HashMap that maps forms to list of poems of that form.
+     */
     public static HashMap<String, List<Poem>> createFormMap(List<Poem> poems) {
         // create a hashmap that maps theme to poem
         HashMap<String, List<Poem>> map = new HashMap<>();
 
-        // iterate through poem list that was created in CSVFileReader
+        // create hashmap by iterating through poem list that was created in
+        // CSVFileReader
         for (Poem poem : poems) {
             String form = poem.getForm();
-            List<Poem> poemList = new ArrayList<>();
-//            System.out.println(poem.getForm());
+            List<Poem> poemList = new ArrayList<Poem>();
             if (map.containsKey(form)) {
                 poemList = map.get(form);
             } else {
-                poemList = new ArrayList<>();
-//                System.out.println("New form");
+                poemList = new ArrayList<Poem>();
             }
             poemList.add(poem);
             map.put(form, poemList);
@@ -191,8 +214,14 @@ public class DataBaseManage extends IPoem {
         }
         
         return poems;
-    }
 
+    /**
+     * Searches the HashMap that maps poems to a specific poetic form and returns a
+     * list of poems of a specific form.
+     * 
+     * @param sc
+     * @return list of poems that match the form specified by the user.
+     */
     public static List<Poem> searchByForm(Scanner sc) {
         System.out.println("Please input form:");
         String form = sc.nextLine();
@@ -202,19 +231,18 @@ public class DataBaseManage extends IPoem {
                 poems.addAll(formMap.get(key));
             }
         }
-
-
-//
-//
-//  String msg = "Search by form " + form + ":" + "\n";
-//  write(poems, msg);
-
+        
         return poems;
     }
-
-    // search through form hashmap
-
-    public static void searchByAuthor(Scanner sc) {
+    
+    /**
+     * Searches the HashMap that maps poems to a specific author and returns a
+     * list of poems of that author
+     * 
+     * @param sc
+     * @return list of poems that match the author specified by the user.
+     */
+    public static List<Poem> searchByAuthor(Scanner sc) {
         System.out.println("Please input author:");
         String author = sc.nextLine();
         List<Poem> poems = new ArrayList<>();
@@ -223,16 +251,10 @@ public class DataBaseManage extends IPoem {
                 poems.addAll(authorMap.get(key));
             }
         }
-        // revisit for other methods
-        if (poems.isEmpty()) {
-            System.out.println("This author does not exist. Please try again");
-        }
-
-        String msg = "Search by author " + author + ":" + "\n";
-        write(poems, msg);
+        return poems;
     }
 
-    public static void searchByTitle(Scanner sc) {
+    public static List<Poem> searchByTitle(Scanner sc) {
         System.out.println("Please input poem title:");
         String title = sc.nextLine();
         List<Poem> poems = new ArrayList<>();
@@ -243,11 +265,10 @@ public class DataBaseManage extends IPoem {
                 }
             }
         }
-        String msg = "Search by title " + title + ":" + "\n";
-        write(poems, msg);
+        return poems;
     }
 
-    public static void searchByPoemContent(Scanner sc) {
+    public static List<Poem> searchByPoemContent(Scanner sc) {
         System.out.println("Please input poem content:");
         String word = sc.nextLine();
         List<Poem> poems = new ArrayList<>();
@@ -258,47 +279,37 @@ public class DataBaseManage extends IPoem {
                 }
             }
         }
-//        String msg = "Search by poem content " + word + ":" + "\n";
-//        write(poems, msg);
+
+        return poems;
     }
 
-    public static void write(List<Poem> poems, String msg) {
+    /**
+     * Writes out passed in list of poems into the poem anthology text file.
+     * 
+     * @param poems
+     */
+    public static void write(List<Poem> poems) {
         // check if poem has already been written
-
         if (poems.isEmpty()) {
             System.out.println("No poems have been written to your anthology");
+            System.out.println("-----------------------------------------------------------");
             System.out.println();
-
+            // otherwise, write out poem
         } else {
             for (Poem poem : poems) {
-                if (!writtenPoems.contains(poem)) {
-                    try {
-                        FileWriter fw = new FileWriter(new File("poem_anthology.txt"), true);
-                        fw.write("\n");
-                        fw.write(msg);
-                        int index = 1;
-                        fw.write("Number of poems found in current search: " + poems.size() + "\n");
-                        fw.write("-----------------" + index + "----------------\n");
-                        fw.write(poem.toString() + "\n");
-                        index++;
-
-                        // add poem to poems that are already written in our anthology
-
-                        writtenPoems.add(poem);
-                        fw.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
+                try {
+                    FileWriter fw = new FileWriter(new File("poem_anthology.txt"), true);
+                    fw.write("\n");
+                    fw.write("-----------------" + index + "----------------\n");
+                    fw.write(poem.toString() + "\n");
+                    index++;
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-//            else {
-//                //add message: "The poem is already in your anthology"
-//                System.out.println(poem.getTitle() + " by " + poem.getAuthor() + " is already in your anthology.");
-//            }
 
             }
         }
-
     }
     
     /*
@@ -317,9 +328,4 @@ public class DataBaseManage extends IPoem {
     public HashMap<String, HashSet<String>> getThemesToWords() {
         return this.themesToWords;
     }
-
-//    public static void deletePoemFromMainList(Poem poem) {
-//        allPoems.remove(poem);
-//    }
-
 }

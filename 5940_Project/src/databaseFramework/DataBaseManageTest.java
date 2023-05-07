@@ -72,7 +72,9 @@ public class DataBaseManageTest {
 
     @Test
     public void testCreateThemeMap() {
-        fail("Not yet implemented"); // TODO
+        List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
+        HashMap<String, List<Poem>> map=DataBaseManage.createAuthorMap(poems);
+        assertTrue(map.size() > 0);
     }
     
     /* ----------------------------------------------------------------------

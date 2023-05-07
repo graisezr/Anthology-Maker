@@ -2,18 +2,17 @@ package databaseFramework;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
 /**
- * Poem object class. Encapsulates the attributes of a poem.
- *
+ * Poem object class. Encapsulates the attributes of a poem
+ * 
  * @author
  *
  */
+
 public class Poem extends IPoem {
 
     private String author;
@@ -24,7 +23,6 @@ public class Poem extends IPoem {
     private String form;
     private int lineCount;
     private int stanzaCount;
-
     private List<Integer> stanzaLineCounts;
     private List<List<Integer>> syllableCountsPerLine;
 
@@ -40,56 +38,56 @@ public class Poem extends IPoem {
      * Methods
      */
 
-    /*
-     * Determining a poem's theme.
-     */
-
-//    /**
-//     * Gets the themes of a poem by comparing each word of the poem with the
-//     * constant HashSet of words associated to a theme.
-//     *
-//     * @param body of a given poem.
-//     * @return the list of a poem's theme(s).
-//     */
-//    public Set<String> determineThemes(String body) {
-//        // Initialize list of themes to be returned
-//
-//        Set<String> themes = new HashSet<>();
-//
-//        // Convert body into an array of words w/o non-alphanumeric characters
-//        String[] words = body.replaceAll("[^a-zA-Z0-9\\s]", "").split("\\s+");
-//        System.out.println("Size of themesToWords at this stage: " + getThemesToWords().size());
-//        // Iterate through every word of the poem
-//        for (String word : words) {
-//            // Convert this word into lower case
-//            word.toLowerCase();
-////            System.out.println(word);
-//            
-//            // Iterate through the keys in the THEMES map
-//            for (String theme : getThemesToWords().keySet()) {
-////                System.out.println("We are comparing the theme " + theme + " with the word " + word);
-//                // If current word belongs to current theme
-//                if (getThemesToWords().get(theme).contains(word)) {
-//                    // Add this theme to the list of themes
-//                    themes.add(theme);
-//                }
-//            }
-//        }
-//
-//        // If no words belonged to any theme, add the theme 'other' to the list
-//        if (themes.isEmpty()) {
-//            themes.add(getThemesArray()[getThemesArray().length - 1]);
-//        }
-//
-//        return themes;
-//    }
-
     /**
      * Method finds the poem's form. In the process, sets lineCount, stanzaCount,
      * standaLineCounts
      *
+     
+    /**
+     * Gets the themes of a poem by comparing each word of the poem with the
+     * constant HashSet of words associated to a theme.
+     * 
+     * @param body of a given poem.
+     * @return the list of a poem's theme(s).
+     */
+    public Set<String> determineThemes(String body) {
+        // Initialize list of themes to be returned
+
+        Set<String> themes = new HashSet<String>();
+
+        // Convert body into an array of words w/o non-alphanumeric characters
+        String[] words = body.replaceAll("[^a-zA-Z0-9\\s]", "").split("\\s+");
+
+        // Iterate through every word of the poem
+        for (String word : words) {
+            // Convert this word into lower case
+            word.toLowerCase();
+            // Iterate through the keys in the THEMES map
+            for (String theme : getThemesToWords().keySet()) {
+                // If current word belongs to current theme
+                if (getThemesToWords().get(theme).contains(word)) {
+                    // Add this theme to the list of themes
+                    themes.add(theme);
+                }
+            }
+        }
+
+        // If no words belonged to any theme, add the theme 'other' to the list
+        if (themes.isEmpty()) {
+
+            themes.add(getThemesArray()[getThemesArray().length - 1]);
+        }
+
+        return themes;
+    }
+
+    /**
+     * Method finds the poem's form. In the process, sets lineCount, stanzaCount,
+     * standaLineCounts, as well as syllableCountsPerLine
+     * 
+
      * @param poem
-     * @return poetic form
+     * @return poetic form as a String
      */
 
     public String findPoemForm(String poem) {
@@ -142,16 +140,23 @@ public class Poem extends IPoem {
         case 8:
             return "Octave";
         case 14:
-            // a sonnet has 14 lines, but there are different types of sonnets
-            // (Shakespearean, Italian)
             return findSonnetType(this.stanzaLineCounts, this.stanzaCount);
         default:
-            return "Free verse";
+            return "Free Verse";
         }
 
     }
 
-    // this method will be called in find form
+    /**
+     * This method is called in findPoemForm for a poem that has 14 lines to find
+     * out as there are different types of sonnets (Shakespearean, Petrarchan,
+     * etc.).
+     * 
+     * @param stanzaLineCounts
+     * @param stanzaCount
+     * @return Sonnet type as a String (or Free Verse if Sonnet criteria isn't
+     *         satisfied)
+     */
     private String findSonnetType(List<Integer> stanzaLineCounts, int stanzaCount) {
         List<Integer> petrarchanSonnetPattern1 = Arrays.asList(8, 6);
         List<Integer> petrarchanSonnetPattern2 = Arrays.asList(4, 4, 3, 3);
@@ -169,10 +174,17 @@ public class Poem extends IPoem {
             }
         }
         // if above isn't satisfied, even though the poem may have 14 lines, it may not
-        // be a sonnet
+        // be a sonnet. Instead, the poem is categorized as a "Free Verse".
         return "Free Verse";
     }
 
+    /**
+     * Counts the number of syllables in a line by calling countWordSyllables for
+     * each word in a line.
+     * 
+     * @param line
+     * @return syllable count in a line as an integer
+     */
     private static int countSyllables(String line) {
         String[] words = line.split(" ");
         int syllableCount = 0;
@@ -184,14 +196,25 @@ public class Poem extends IPoem {
         return syllableCount;
     }
 
+    /**
+     * Checks if character is a vowel.
+     * 
+     * @param c
+     * @return boolean
+     */
+
     private static boolean isVowel(char c) {
         return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'y';
     }
 
+    /**
+     * Simple syllable counting method that counts the number of syllables in a word
+     * 
+     * @param word
+     * @return syllable count as an integer
+     */
     private static int countWordSyllables(String word) {
-        // This is a simple syllable counting method that does not account for all
-        // linguistic rules.
-        // You can replace this with a more accurate syllable counting library or API.
+
         int count = 0;
         word = word.toLowerCase();
 
@@ -199,14 +222,14 @@ public class Poem extends IPoem {
             return 0;
         }
 
-        if (word.charAt(0) == 'a' || word.charAt(0) == 'e' || word.charAt(0) == 'i' || word.charAt(0) == 'o'
-                || word.charAt(0) == 'u') {
+        if (isVowel(word.charAt(0)) || isVowel(word.charAt(0)) || isVowel(word.charAt(0)) || isVowel(word.charAt(0))
+                || isVowel(word.charAt(0))) {
             count++;
         }
 
         for (int i = 1; i < word.length(); i++) {
-            if (word.charAt(i) == 'a' || word.charAt(i) == 'e' || word.charAt(i) == 'i' || word.charAt(i) == 'o'
-                    || word.charAt(i) == 'u') {
+            if (isVowel(word.charAt(i)) || isVowel(word.charAt(i)) || isVowel(word.charAt(i)) || isVowel(word.charAt(i))
+                    || isVowel(word.charAt(i))) {
                 if (!(word.charAt(i - 1) == 'a' || word.charAt(i - 1) == 'e' || word.charAt(i - 1) == 'i'
                         || word.charAt(i - 1) == 'o' || word.charAt(i - 1) == 'u')) {
                     count++;
@@ -217,87 +240,18 @@ public class Poem extends IPoem {
         if (word.charAt(word.length() - 1) == 'e') {
             count--;
         }
-
         return count;
     }
 
-    public String findForm(String text) {
-
-        int numberOfLines = 0;
-
-        for (int i = 0; i < text.length(); i++) {
-            if (text.charAt(i) == '\n') {
-                numberOfLines++;
-            }
-        }
-        // add 1 to account for the last line
-        numberOfLines++;
-
-        switch (numberOfLines) {
-        case 1:
-            return "Monostich";
-        case 2:
-            return "Couplet";
-        case 3:
-            return "Tercet";
-        case 4:
-            return "Quatrain";
-        case 5:
-            return "Cinquain";
-        case 6:
-            return "Sestet";
-        case 8:
-            return "Octave";
-        case 14:
-            return "Sonnet";
-        default:
-            return "Free verse";
-        }
-
+    @Override
+    public String toString() {
+        return "Author: " + author + "\nTitle: " + title + "\n" + "\n" + text;
     }
 
-    ///////////////////////////
 
-//    public int findStanzas(String text) {
-//        //assume there's at least 1 stanza
-//        int stanzaCount = 1;
-//
-//        for (int i = 0; i < text.length(); i++) {
-//            if (text.charAt(i) == '\n' && i != 0 && text.charAt(i - 1) == '\n') {
-//                stanzaCount++;
-//            }
-//        }
-//
-//        return stanzaCount;
-//    }
-
-//    public int findWordSyllables(String word) {
-//
-//        word = word.toLowerCase();
-//        int syllables = 0;
-//        boolean lastCharVowel = false;
-//
-//        for (char c : word.toCharArray()) {
-//            boolean isVowel = "aeiouy".indexOf(c) >= 0;
-//
-//            if (isVowel && !lastCharVowel) {
-//                syllables++;
-//            }
-//
-//            lastCharVowel = isVowel;
-//        }
-//
-//        if (word.endsWith("e")) {
-//            syllables--;
-//        }
-//
-//        if (syllables == 0) {
-//            syllables = 1;
-//        }
-//
-//        return syllables;
-//    }
-
+    /*
+     * Getters and Setters.
+     */
 
 
     public String getAuthor() {
@@ -311,6 +265,7 @@ public class Poem extends IPoem {
     public String getTextString() {
         return text;
     }
+
     public Set<String> getThemes() {
         return this.themes;
     }
@@ -343,8 +298,4 @@ public class Poem extends IPoem {
         this.themes = themes;
     }
 
-    @Override
-    public String toString() {
-        return "Author: " + author + "\nTitle: " + title + "\n" + "\n" + text;
-    }
 }
