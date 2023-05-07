@@ -3,7 +3,9 @@ package databaseFramework;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Poem object class. Encapsulates the attributes of a poem
@@ -12,7 +14,7 @@ import java.util.List;
  *
  */
 public class Poem implements IPoem {
-    
+        
     private String author;
     private String title;
     private String text;
@@ -34,29 +36,29 @@ public class Poem implements IPoem {
         this.form = findPoemForm(textString);
 
     }
-    
+
     /*
      * Methods
      */
-    
+
     /*
      * Determining a poem's theme.
      */
-    
+
     /**
-     * Gets the themes of a poem by comparing each word of the
-     * poem with the constant HashSet of words associated to a
-     * theme.
-     * @param body of a given poem. 
-     * @return the list of a poem's theme(s). 
+     * Gets the themes of a poem by comparing each word of the poem with the
+     * constant HashSet of words associated to a theme.
+     * 
+     * @param body of a given poem.
+     * @return the list of a poem's theme(s).
      */
     public List<String> determineThemes(String body) {
         // Initialize list of themes to be returned
         List<String> themes = new ArrayList<String>();
-        
+
         // Convert body into an array of words w/o non-alphanumeric characters
         String[] words = body.replaceAll("[^a-zA-Z0-9\\s]", "").split("\\s+");
-        
+
         // Iterate through every word of the poem
         for (String word : words) {
             // Convert this word into lower case
@@ -70,12 +72,12 @@ public class Poem implements IPoem {
                 }
             }
         }
-        
+
         // If no words belonged to any theme, add the theme 'other' to the list
         if (themes.isEmpty()) {
-            themes.add(THEMESARRAY[THEMESARRAY.length - 1]);
+            themes.add("other");
         }
-        
+
         return themes;
     }
 
@@ -86,10 +88,9 @@ public class Poem implements IPoem {
      * @param poem
      * @return poetic form
      */
-    
 
     public String findPoemForm(String poem) {
-        System.out.println(this.getTitle());
+//        System.out.println(this.getTitle());
         List<String> lines = Arrays.asList(poem.split("\\r?\\n"));
         List<Integer> stanzaLineCounts = new ArrayList<>();
         List<List<Integer>> syllableCountsPerLine = new ArrayList<>();
@@ -119,8 +120,8 @@ public class Poem implements IPoem {
         this.stanzaLineCounts = stanzaLineCounts;
         this.syllableCountsPerLine = syllableCountsPerLine;
 
-        System.out.println(
-                "Stanza line counts: " + stanzaLineCounts + "\nSyllable counts per line: " + syllableCountsPerLine);
+//        System.out.println(
+//                "Stanza line counts: " + stanzaLineCounts + "\nSyllable counts per line: " + syllableCountsPerLine);
 
         switch (this.getLineCount()) {
         case 1:
@@ -157,15 +158,15 @@ public class Poem implements IPoem {
             if (stanzaLineCounts.equals(petrarchanSonnetPattern1)) {
                 return "Petrarchan Sonnet";
             }
-        }
-        else if (stanzaCount == 4) {
+        } else if (stanzaCount == 4) {
             if (stanzaLineCounts.equals(petrarchanSonnetPattern2)) {
                 return "Sonnet";
             } else if (stanzaLineCounts.equals(shakeSpeareanSonnetPattern)) {
                 return "Shakespearean Sonnet";
             }
         }
-        //if above isn't satisfied, even though the poem may have 14 lines, it may not be a sonnet
+        // if above isn't satisfied, even though the poem may have 14 lines, it may not
+        // be a sonnet
         return "Free Verse";
     }
 
@@ -251,7 +252,7 @@ public class Poem implements IPoem {
         }
 
     }
-    
+
     ///////////////////////////
 
 //    public int findStanzas(String text) {
@@ -293,6 +294,7 @@ public class Poem implements IPoem {
 //        
 //        return syllables;
 //    }
+    
 
 
     public String getAuthor() {
@@ -306,7 +308,7 @@ public class Poem implements IPoem {
     public String getTextString() {
         return text;
     }
-    
+
     public List<String> getThemes() {
         return this.themes;
     }

@@ -13,13 +13,13 @@ public interface IPoem {
     
  
     
-    // Construct the Map of main themes to words
+//    // Construct the Map of main themes to words
     public static Map<String, HashSet<String>> THEMES = new HashMap<>() {{
-            THEMES.put(THEMESARRAY[0], LOVEWORDS);
-            THEMES.put(THEMESARRAY[1], DEATHWORDS);
-            THEMES.put(THEMESARRAY[2], JOYWORDS);
-            THEMES.put(THEMESARRAY[3], SADNESSWORDS);
-            THEMES.put(THEMESARRAY[4], WARWORDS);
+//            THEMES.put("love", LOVEWORDS);
+//            THEMES.put("death", DEATHWORDS);
+//            THEMES.put("joy", JOYWORDS);
+//            THEMES.put("sadness", SADNESSWORDS);
+//            THEMES.put("war", WARWORDS);
         }};
         
     // Constant array of themes. Note: 'other' should be last element
