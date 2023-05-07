@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Poem object class. Encapsulates the attributes of a poem
+ * Poem object class. Encapsulates the attributes of a poem.
  * 
  * @author
  *

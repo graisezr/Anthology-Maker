@@ -27,7 +27,7 @@ public class PoemTest {
 //    public void testFindStanzas() {
 //        List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
 //        
-//        //I Do Not Love You Except Because I Love You
+//        //I Do Not Love You Except Because I Love You, by Pablo Neurda
 //        Poem pabloNerudaPoem0 = poems.get(0);
 //        
 //        assertEquals(14, pabloNerudaPoem0.getLineCount());
