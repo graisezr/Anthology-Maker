@@ -12,7 +12,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class DataBaseManage extends IPoem {
-    
+
     /*
      * Private instance variables
      */
@@ -27,7 +27,7 @@ public class DataBaseManage extends IPoem {
     static HashMap<String, List<Poem>> authorMap;
 
     // Maps themes to poems.
-    private static HashMap<String, List<Poem>> themeMap;
+    private static HashMap<String, List<Poem>> themeMap = new HashMap<String, List<Poem>>();
 
     // Maps poetic forms to poems.
     private static HashMap<String, List<Poem>> formMap;
@@ -35,16 +35,17 @@ public class DataBaseManage extends IPoem {
     // Set of poems that were already written
     private static Set<Poem> writtenPoems = new HashSet<>();
 
-    // Initial HashMap mapping themes (e.g., love, death, etc.) to HashSet of words (see IPoem)
+    // Initial HashMap mapping themes (e.g., love, death, etc.) to HashSet of words
+    // (see IPoem)
     private HashMap<String, HashSet<String>> themesToWords = new HashMap<>();
-    
+
     // Index used to write out "page" number for each poem in the poem_anthology.txt
     private static int index = 1;
-    
+
     /*
      * Constructor
      */
-    
+
     public DataBaseManage() {
         // Construct the initial map of themes to words
         setThemesToWords(themesToWords);
@@ -54,11 +55,11 @@ public class DataBaseManage extends IPoem {
         populateThemes();
         // Create the map of authors to poems
         DataBaseManage.authorMap = createAuthorMap(allPoems);
-//      this.themeMap = createThemeMap(allPoems);
+        createThemeMap(allPoems);
         DataBaseManage.formMap = createFormMap(allPoems);
 
     }
-    
+
     /*
      * Methods
      */
@@ -72,7 +73,7 @@ public class DataBaseManage extends IPoem {
      */
     public static HashMap<String, List<Poem>> createAuthorMap(List<Poem> poems) {
         HashMap<String, List<Poem>> authorMap = new HashMap<String, List<Poem>>();
-        
+
         for (Poem poem : poems) {
             List<Poem> poemList = new ArrayList<Poem>();
             if (authorMap.containsKey(poem.getAuthor())) {
@@ -96,10 +97,11 @@ public class DataBaseManage extends IPoem {
 //        map.put(author, poems);
 //    }
     }
-    
+
     /**
      * Gets the themes of a poem by comparing each word of the poem with the
      * constant HashSet of words associated to a theme.
+     * 
      * @param body of a given poem.
      * @return the list of a poem's theme(s).
      */
@@ -130,7 +132,7 @@ public class DataBaseManage extends IPoem {
 
         return themes;
     }
-    
+
     /**
      * For each poem, sets its theme(s) by calling determineThemes().
      */
@@ -143,9 +145,11 @@ public class DataBaseManage extends IPoem {
             poem.setThemes(poemThemes);
         }
     }
-    
+
     /**
-     * Populates the map of themes to poems (private instance variable) given a list of poems.
+     * Populates the map of themes to poems (private instance variable) given a list
+     * of poems.
+     * 
      * @param poems whose themes are added to themeMap.
      */
     public static void createThemeMap(List<Poem> poems) {
@@ -193,15 +197,16 @@ public class DataBaseManage extends IPoem {
 
         return map;
     }
-    
+
     /**
-     * Returns a list of poems that contain a theme picked by the user.
-     * The list of poems is then meant to be displayed in the console (titles are shown).
+     * Returns a list of poems that contain a theme picked by the user. The list of
+     * poems is then meant to be displayed in the console (titles are shown).
+     * 
      * @param sc is user's input, represents the selection of a theme
      * @return a list of poems which contain the user's choice of theme.
      */
     public static List<Poem> searchByTheme(Scanner sc) {
-        // Display message for user to pick  a theme
+        // Display message for user to pick a theme
         System.out.println("Please input the theme of the poems you would like to add to your anthology:");
         // Get the user's choice
         String selectedTheme = sc.nextLine();
@@ -212,8 +217,9 @@ public class DataBaseManage extends IPoem {
                 poems.addAll(themeMap.get(theme));
             }
         }
-        
+
         return poems;
+    }
 
     /**
      * Searches the HashMap that maps poems to a specific poetic form and returns a
@@ -231,13 +237,13 @@ public class DataBaseManage extends IPoem {
                 poems.addAll(formMap.get(key));
             }
         }
-        
+
         return poems;
     }
-    
+
     /**
-     * Searches the HashMap that maps poems to a specific author and returns a
-     * list of poems of that author
+     * Searches the HashMap that maps poems to a specific author and returns a list
+     * of poems of that author
      * 
      * @param sc
      * @return list of poems that match the author specified by the user.
@@ -311,19 +317,19 @@ public class DataBaseManage extends IPoem {
             }
         }
     }
-    
+
     /*
      * Getters and setters
      */
-    
+
     public List<Poem> getAllPoems() {
         return this.allPoems;
     }
 
-    public HashSet<Poem> getWrittenOutPoems(){
+    public HashSet<Poem> getWrittenOutPoems() {
         return this.writtenOutPoems;
     }
-    
+
     @Override
     public HashMap<String, HashSet<String>> getThemesToWords() {
         return this.themesToWords;

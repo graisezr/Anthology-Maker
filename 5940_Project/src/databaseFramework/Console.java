@@ -79,7 +79,7 @@ public class Console {
                 // search poems by theme
             } else if (choice == 4) {
 
-                poemListSelection = DataBaseManage.searchByTheme(sc);
+                poemListSelection = db.searchByTheme(sc);
                 if (poemListSelection.isEmpty()) {
                     System.out.println("This theme does not exist.");
                 } else {
@@ -88,7 +88,7 @@ public class Console {
                 }
                 // search poems by form
             } else if (choice == 5) {
-                poemListSelection = DataBaseManage.searchByForm(sc);
+                poemListSelection = db.searchByForm(sc);
 
                 if (poemListSelection.isEmpty()) {
                     System.out.println("This form does not exist.");
@@ -182,7 +182,6 @@ public class Console {
                         System.out.println("This poem is already in your anthology");
 
                     }
-//                db.deletePoemFromMainList(poemListSelection.get(choice - 1));
 
                 } else {
                     System.out.println("Poem was not added to your anthology.");
