@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-public class DataBaseManage {
+public class DataBaseManage extends IPoem {
 
     // we will build our hashmaps off of this list
     private static List<Poem> allPoems = CSVFileReader.readCSVFile("poem_data.csv");
@@ -36,12 +36,17 @@ public class DataBaseManage {
 
     // set of poems that were already written
     private static Set<Poem> writtenPoems = new HashSet<Poem>();
+    
+    // Initial HashMap mapping themes (e.g., love, death, etc.) to HashSet of words (see IPoem)
+    private static HashMap<String, HashSet<String>> themesToWords = new HashMap<>();
 
     private Map<String, HashSet<String>> themeToWords = new HashMap<>();
 
     public DataBaseManage() {
-        // Construct the Map of main themes to words
 
+        // Construct the initial map of themes to words
+        setThemesToWords(themesToWords);
+        // Create the map of authors to poems
         this.authorMap = createAuthorMap(allPoems);
 //      this.themeMap = createThemeMap(allPoems);
         this.formMap = createFormMap(allPoems);
