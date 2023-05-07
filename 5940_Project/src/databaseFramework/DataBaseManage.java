@@ -17,13 +17,13 @@ public class DataBaseManage extends IPoem {
     // We will build our hashmaps off of this list
     private static List<Poem> allPoems = CSVFileReader.readCSVFile("poem_data.csv");
 
-    //Hashmap 1: Maps authors to list of poems of that author
+    // Hashmap 1: Maps authors to list of poems of that author
     static HashMap<String, List<Poem>> authorMap;
 
-    //Hashmap 2: Maps themes to list of poems of that theme
+    // Hashmap 2: Maps themes to list of poems of that theme
     private static HashMap<String, List<Poem>> themeMap;
 
-    //Hashmap 3: Maps forms to list of poems of that form.
+    // Hashmap 3: Maps forms to list of poems of that form.
     private static HashMap<String, List<Poem>> formMap;
 
     // Initial HashMap mapping themes (e.g., love, death, etc.) to HashSet of words
@@ -31,10 +31,10 @@ public class DataBaseManage extends IPoem {
     private static HashMap<String, HashSet<String>> themesToWords = new HashMap<>();
 
     private Map<String, HashSet<String>> themeToWords = new HashMap<>();
-   
-    //index used to write out "page" number for each poem in the poem_anthology.txt
+
+    // index used to write out "page" number for each poem in the poem_anthology.txt
     private static int index = 1;
-    
+
     public DataBaseManage() {
         // Construct the initial map of themes to words
         setThemesToWords(themesToWords);
@@ -45,32 +45,29 @@ public class DataBaseManage extends IPoem {
 
     }
 
+    /**
+     * Creates a HashMap from poem list that maps authors to list of poems of that
+     * author.
+     * 
+     * @param poems : list of Poem Objects generated in CSV filereader.
+     * @return HashMap that maps authors to list of poems of that form.
+     */
     public static HashMap<String, List<Poem>> createAuthorMap(List<Poem> poems) {
-        HashMap<String, List<Poem>> authorMap=new  HashMap<String, List<Poem>>();
-
-        for(Poem p:poems){
-            List<Poem> subPoems=null;
-            if(authorMap.containsKey(p.getAuthor())){
-                subPoems=authorMap.get(p.getAuthor());
-            }else{
-                subPoems=new ArrayList<Poem>();
+        HashMap<String, List<Poem>> authorMap = new HashMap<String, List<Poem>>();
+        
+        for (Poem poem : poems) {
+            List<Poem> poemList = new ArrayList<Poem>();
+            if (authorMap.containsKey(poem.getAuthor())) {
+                poemList = authorMap.get(poem.getAuthor());
+            } else {
+                poemList = new ArrayList<Poem>();
             }
-            subPoems.add(p.getAuthor());
-            authorMap.put(p.getAuthor(),subPoems);
+            poemList.add(poem);
+            authorMap.put(poem.getAuthor(), poemList);
         }
         return authorMap;
-//        if (map.containsKey(author)) {
-//            poems = map.get(author);
-//        } else {
-//            //if author does not exist yet, create a new list of poems 
-//            poems = new ArrayList<Poem>();
-//        }
-//        //create new Poem object and add it to list of poems associated with that author
-//        poems.add(new Poem(author, title, content));
-//        map.put(author, poems);
-//    }
     }
-
+    
     public static void createThemeMap(List<Poem> poems) {
         // Iterate through the list of poems
         for (Poem poem : poems) {
@@ -88,9 +85,11 @@ public class DataBaseManage extends IPoem {
             }
         }
     }
-    
+
     /**
-     * Creates a HashMap from poem list that maps forms to list of poems of that form.
+     * Creates a HashMap from poem list that maps forms to list of poems of that
+     * form.
+     * 
      * @param poems : list of Poem Objects generated in CSV filereader.
      * @return HashMap that maps forms to list of poems of that form.
      */
@@ -98,7 +97,8 @@ public class DataBaseManage extends IPoem {
         // create a hashmap that maps theme to poem
         HashMap<String, List<Poem>> map = new HashMap<String, List<Poem>>();
 
-        // create hashmap by iterating through poem list that was created in CSVFileReader
+        // create hashmap by iterating through poem list that was created in
+        // CSVFileReader
         for (Poem poem : poems) {
             String form = poem.getForm();
             List<Poem> poemList = new ArrayList<Poem>();
@@ -117,12 +117,13 @@ public class DataBaseManage extends IPoem {
     public static List<Poem> searchByTheme(Scanner sc) {
         return null;
     }
-    
+
     /**
-     * Searches the HashMap that maps poems to a specific poetic form and returns a list of poems of a specific form.
+     * Searches the HashMap that maps poems to a specific poetic form and returns a
+     * list of poems of a specific form.
      * 
      * @param sc
-     * @return list of poems that match the form specified by the user. 
+     * @return list of poems that match the form specified by the user.
      */
     public static List<Poem> searchByForm(Scanner sc) {
         System.out.println("Please input form:");
@@ -135,7 +136,14 @@ public class DataBaseManage extends IPoem {
         }
         return poems;
     }
-
+    
+    /**
+     * Searches the HashMap that maps poems to a specific author and returns a
+     * list of poems of that author
+     * 
+     * @param sc
+     * @return list of poems that match the author specified by the user.
+     */
     public static List<Poem> searchByAuthor(Scanner sc) {
         System.out.println("Please input author:");
         String author = sc.nextLine();
@@ -173,12 +181,13 @@ public class DataBaseManage extends IPoem {
                 }
             }
         }
-       
+
         return poems;
     }
-    
+
     /**
      * Writes out passed in list of poems into the poem anthology text file.
+     * 
      * @param poems
      */
     public static void write(List<Poem> poems) {
@@ -187,7 +196,7 @@ public class DataBaseManage extends IPoem {
             System.out.println("No poems have been written to your anthology");
             System.out.println("-----------------------------------------------------------");
             System.out.println();
-            //otherwise, write out poem
+            // otherwise, write out poem
         } else {
             for (Poem poem : poems) {
                 try {
