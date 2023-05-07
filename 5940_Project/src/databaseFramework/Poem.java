@@ -5,26 +5,22 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 
 /**
  * Poem object class. Encapsulates the attributes of a poem.
- * 
+ *
  * @author
  *
  */
-public class Poem implements IPoem {
-        
-=======
 public class Poem extends IPoem {
-    
+
     private String author;
     private String title;
     private String text;
     private Set<String> themes;
-
+    
     private String form;
     private int lineCount;
     private int stanzaCount;
@@ -37,9 +33,7 @@ public class Poem extends IPoem {
         this.author = author;
         this.title = title;
         this.text = textString;
-        this.themes = determineThemes(textString);
         this.form = findPoemForm(textString);
-
     }
 
     /*
@@ -50,48 +44,50 @@ public class Poem extends IPoem {
      * Determining a poem's theme.
      */
 
-    /**
-     * Gets the themes of a poem by comparing each word of the poem with the
-     * constant HashSet of words associated to a theme.
-     * 
-     * @param body of a given poem.
-     * @return the list of a poem's theme(s).
-     */
-    public Set<String> determineThemes(String body) {
-        // Initialize list of themes to be returned
-
-        Set<String> themes = new HashSet<String>();
-        
-        // Convert body into an array of words w/o non-alphanumeric characters
-        String[] words = body.replaceAll("[^a-zA-Z0-9\\s]", "").split("\\s+");
-
-        // Iterate through every word of the poem
-        for (String word : words) {
-            // Convert this word into lower case
-            word.toLowerCase();
-            // Iterate through the keys in the THEMES map
-            for (String theme : getThemesToWords().keySet()) {
-                // If current word belongs to current theme
-                if (getThemesToWords().get(theme).contains(word)) {
-                    // Add this theme to the list of themes
-                    themes.add(theme);
-                }
-            }
-        }
-
-        // If no words belonged to any theme, add the theme 'other' to the list
-        if (themes.isEmpty()) {
-
-            themes.add(getThemesArray()[getThemesArray().length - 1]);
-        }
-
-        return themes;
-    }
+//    /**
+//     * Gets the themes of a poem by comparing each word of the poem with the
+//     * constant HashSet of words associated to a theme.
+//     *
+//     * @param body of a given poem.
+//     * @return the list of a poem's theme(s).
+//     */
+//    public Set<String> determineThemes(String body) {
+//        // Initialize list of themes to be returned
+//
+//        Set<String> themes = new HashSet<>();
+//
+//        // Convert body into an array of words w/o non-alphanumeric characters
+//        String[] words = body.replaceAll("[^a-zA-Z0-9\\s]", "").split("\\s+");
+//        System.out.println("Size of themesToWords at this stage: " + getThemesToWords().size());
+//        // Iterate through every word of the poem
+//        for (String word : words) {
+//            // Convert this word into lower case
+//            word.toLowerCase();
+////            System.out.println(word);
+//            
+//            // Iterate through the keys in the THEMES map
+//            for (String theme : getThemesToWords().keySet()) {
+////                System.out.println("We are comparing the theme " + theme + " with the word " + word);
+//                // If current word belongs to current theme
+//                if (getThemesToWords().get(theme).contains(word)) {
+//                    // Add this theme to the list of themes
+//                    themes.add(theme);
+//                }
+//            }
+//        }
+//
+//        // If no words belonged to any theme, add the theme 'other' to the list
+//        if (themes.isEmpty()) {
+//            themes.add(getThemesArray()[getThemesArray().length - 1]);
+//        }
+//
+//        return themes;
+//    }
 
     /**
      * Method finds the poem's form. In the process, sets lineCount, stanzaCount,
      * standaLineCounts
-     * 
+     *
      * @param poem
      * @return poetic form
      */
@@ -264,19 +260,19 @@ public class Poem extends IPoem {
 
 //    public int findStanzas(String text) {
 //        //assume there's at least 1 stanza
-//        int stanzaCount = 1; 
-//        
+//        int stanzaCount = 1;
+//
 //        for (int i = 0; i < text.length(); i++) {
 //            if (text.charAt(i) == '\n' && i != 0 && text.charAt(i - 1) == '\n') {
 //                stanzaCount++;
 //            }
 //        }
-//        
+//
 //        return stanzaCount;
 //    }
 
 //    public int findWordSyllables(String word) {
-//        
+//
 //        word = word.toLowerCase();
 //        int syllables = 0;
 //        boolean lastCharVowel = false;
@@ -298,10 +294,10 @@ public class Poem extends IPoem {
 //        if (syllables == 0) {
 //            syllables = 1;
 //        }
-//        
+//
 //        return syllables;
 //    }
-    
+
 
 
     public String getAuthor() {
@@ -341,6 +337,10 @@ public class Poem extends IPoem {
 
     public void setTextString(String textString) {
         this.text = textString;
+    }
+    
+    public void setThemes(Set<String> themes) {
+        this.themes = themes;
     }
 
     @Override
