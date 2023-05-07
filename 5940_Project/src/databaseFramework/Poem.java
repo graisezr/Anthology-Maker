@@ -2,22 +2,19 @@ package databaseFramework;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 
 /**
- * Poem object class. Encapsulates the attributes of a poem.
+ * Poem object class. Encapsulates the attributes of a poem
  * 
  * @author
  *
  */
-public class Poem implements IPoem {
         
-=======
+
 public class Poem extends IPoem {
     
     private String author;

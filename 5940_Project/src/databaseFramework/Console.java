@@ -52,6 +52,9 @@ public class Console {
                     System.out.println("This form does not exist.");
                 } else {
                     List<Poem> poemListToWriteOut = displayPoemSelection(poemListSelection);
+                    
+                    //wirte out any poems
+                    DataBaseManage.write(poemListToWriteOut, msg);
                 }
                 // while scanner is "yes", keep adding stuff to the poem
 
@@ -134,9 +137,7 @@ public class Console {
                 break;
             }
         }
-
         return poemListToWriteOut;
-
     }
 
 }
