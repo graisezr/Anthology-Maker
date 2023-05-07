@@ -1,5 +1,5 @@
 /**
- * Interface for Poem.
+ * Interface for Poem
  */
 
 package databaseFramework;

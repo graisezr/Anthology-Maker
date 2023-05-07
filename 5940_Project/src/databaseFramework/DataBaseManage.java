@@ -1,6 +1,6 @@
 package databaseFramework;
 
-//Build 3 Hashmaps where we have information on poems.
+//Build 3 Hashmaps
 
 //Hashmap 1: Maps authors to list of poems of that author [DONE]
 //Hashmap 2: Maps themes to lisf of poems of that theme
