@@ -1,12 +1,19 @@
 package databaseFramework;
 
+import static org.junit.Assert.assertTrue;
+
+import java.util.HashMap;
+import java.util.List;
+
 import org.junit.Test;
 
 public class DataBaseManageTest {
 
     @Test
     public void testCreateAuthorMap() {
-        List<Poem> poems =CSVFileReader.readCSVFile("poem_data.csv");
+        List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
         HashMap<String, List<Poem>> map=DataBaseManage.createAuthorMap(poems);
-        assertTrue(map.size()>0)
+        assertTrue(map.size() > 0);
+    }
+}
   //testing fo databasemanage     
