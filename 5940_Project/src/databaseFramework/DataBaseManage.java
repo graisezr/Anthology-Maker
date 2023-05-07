@@ -4,7 +4,7 @@ package databaseFramework;
 
 //Hashmap 1: Maps authors to list of poems of that author [DONE]
 //Hashmap 2: Maps themes to lisf of poems of that theme
-//Hashmap 3: Maps forms to list of poems of that form
+//Hashmap 3: Maps forms to list of poems of that form.
 
 import java.io.File;
 import java.io.FileWriter;
