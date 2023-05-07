@@ -19,7 +19,7 @@ public class Poem extends IPoem {
     private String title;
     private String text;
     private Set<String> themes;
-
+    
     private String form;
     private int lineCount;
     private int stanzaCount;
@@ -31,19 +31,18 @@ public class Poem extends IPoem {
         this.author = author;
         this.title = title;
         this.text = textString;
-        this.themes = determineThemes(textString);
         this.form = findPoemForm(textString);
-
     }
 
     /*
      * Methods
      */
 
-    /*
-     * Determining a poem's theme.
-     */
-
+    /**
+     * Method finds the poem's form. In the process, sets lineCount, stanzaCount,
+     * standaLineCounts
+     *
+     
     /**
      * Gets the themes of a poem by comparing each word of the poem with the
      * constant HashSet of words associated to a theme.
@@ -86,6 +85,7 @@ public class Poem extends IPoem {
      * Method finds the poem's form. In the process, sets lineCount, stanzaCount,
      * standaLineCounts, as well as syllableCountsPerLine
      * 
+
      * @param poem
      * @return poetic form as a String
      */
@@ -248,9 +248,11 @@ public class Poem extends IPoem {
         return "Author: " + author + "\nTitle: " + title + "\n" + "\n" + text;
     }
 
+
     /*
      * Getters and Setters.
      */
+
 
     public String getAuthor() {
         return author;
@@ -290,6 +292,10 @@ public class Poem extends IPoem {
 
     public void setTextString(String textString) {
         this.text = textString;
+    }
+    
+    public void setThemes(Set<String> themes) {
+        this.themes = themes;
     }
 
 }
