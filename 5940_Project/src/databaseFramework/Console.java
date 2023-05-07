@@ -1,5 +1,8 @@
 package databaseFramework;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 // console: only user interaction
@@ -11,6 +14,15 @@ public class Console {
     public static void main(String[] args) {
         // takes in user input
         //consider invalid input
+        DataBaseManage db = new DataBaseManage();
+        
+        //ensures that the previous poetry anthology is cleared when creating a new one
+        try {
+            FileWriter fw = new FileWriter(new File("poem_anthology.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         
         Scanner sc = new Scanner(System.in);
         while (true) {
@@ -37,9 +49,9 @@ public class Console {
         System.out.println("Please input 1-4:");
         System.out.println("1 - Search poems by author");
         System.out.println("2 - Search poems by title");
-        System.out.println("3 - Search poems by poem content");
-        System.out.println("4 - Search poems by poem theme");
-        System.out.println("5 - Search poems by poem form");
+        System.out.println("3 - Search poems by content");
+        System.out.println("4 - Search poems by theme");
+        System.out.println("5 - Search poems by poetic form");
         System.out.println("6 - Exit");
     }
 

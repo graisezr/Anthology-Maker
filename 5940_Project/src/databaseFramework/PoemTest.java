@@ -16,7 +16,7 @@ public class PoemTest {
 
     @Before
     public void setUp() throws Exception {
-      List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
+//      List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
 
     }
 
@@ -33,23 +33,22 @@ public class PoemTest {
         List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
         
         //I Do Not Love You Except Because I Love You
-        Poem pabloNerudaPoem1 = poems.get(0);
+        Poem pabloNerudaPoem0 = poems.get(0);
         
-        assertEquals(4, pabloNerudaPoem1.findStanzas(pabloNerudaPoem1.getTextString()));
+        assertEquals(14, pabloNerudaPoem0.getLineCount());
+        assertEquals("Sonnet", pabloNerudaPoem0.getForm());
+        
+        Poem pabloNerudaPoem1 = poems.get(1);
+        assertEquals(14, pabloNerudaPoem1.getLineCount());
+        assertEquals("Sonnet", pabloNerudaPoem1.getForm());
 
-        
         //If You Forget Me
         Poem pabloNerudaPoem3 = poems.get(2);
-        
-        assertEquals(6, pabloNerudaPoem3.findStanzas(pabloNerudaPoem3.getTextString()));
-        
-        //
-        Poem pabloNerudaPoem23 = poems.get(22);
-        
-        assertEquals(17, pabloNerudaPoem23.findStanzas(pabloNerudaPoem23.getTextString()));
+        assertEquals(48, pabloNerudaPoem3.getLineCount());
+        assertEquals("Free verse", pabloNerudaPoem3.getForm());
 
-
-
+        
+//        Poem pabloNerudaPoem23 = poems.get(22);
     }
 
     @Test

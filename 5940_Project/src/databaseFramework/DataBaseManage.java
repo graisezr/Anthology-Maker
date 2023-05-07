@@ -19,7 +19,7 @@ import java.util.Set;
 public class DataBaseManage {
 
     // we will build our hashmaps off of this list
-    private static List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
+    private static List<Poem> allPoems = CSVFileReader.readCSVFile("poem_data.csv");
 
     // Hashmap 1
     static HashMap<String, List<Poem>> authorMap;
@@ -33,7 +33,15 @@ public class DataBaseManage {
     // set of poems that were already written
     private static Set<Poem> writtenPoems = new HashSet<Poem>();
 
-    public static void createAuthorMap(List<Poem> poems) {
+    public DataBaseManage() {
+        this.authorMap = createAuthorMap(allPoems);
+//      this.themeMap = createThemeMap(allPoems);
+        this.formMap = createFormMap(allPoems);
+
+    }
+
+    public static HashMap<String, List<Poem>> createAuthorMap(List<Poem> poems) {
+        return authorMap;
 //        if (map.containsKey(author)) {
 //            poems = map.get(author);
 //        } else {
@@ -62,11 +70,28 @@ public class DataBaseManage {
                 }
             }
         }
-    }
 
-    public static void createFormMap(List<Poem> poems) {
-        // theme variable: this.form
 
+    public static HashMap<String, List<Poem>> createFormMap(List<Poem> poems) {
+        // create a hashmap that maps theme to poem
+        HashMap<String, List<Poem>> map = new HashMap<String, List<Poem>>();
+
+        // iterate through poem list that was created in CSVFileReader
+        for (Poem poem : poems) {
+            String form = poem.getForm();
+            List<Poem> poemList = new ArrayList<Poem>();
+//            System.out.println(poem.getForm());
+            if (map.containsKey(form)) {
+                poemList = map.get(form);
+            } else {
+                poemList = new ArrayList<Poem>();
+//                System.out.println("New form");
+            }
+            poemList.add(poem);
+            map.put(form, poemList);
+        }
+
+        return map;
     }
 
     public static void searchByTheme(Scanner sc) {
@@ -74,8 +99,24 @@ public class DataBaseManage {
     }
 
     public static void searchByForm(Scanner sc) {
-        // search through form hashmap
+        System.out.println("Please input form:");
+        String form = sc.nextLine();
+        List<Poem> poems = new ArrayList<Poem>();
+        for (String key : formMap.keySet()) {
+            if (key.toLowerCase().contains(form.toLowerCase())) {
+                poems.addAll(formMap.get(key));
+            }
+        }
+        // revisit for other methods
+        if (poems.isEmpty()) {
+            System.out.println("This form does not exist. Please try again");
+        }
+
+        String msg = "Search by form " + form + ":" + "\n";
+        write(poems, msg);
     }
+
+    // search through form hashmap
 
     public static void searchByAuthor(Scanner sc) {
         System.out.println("Please input author:");
@@ -126,7 +167,7 @@ public class DataBaseManage {
     }
 
     public static void write(List<Poem> poems, String msg) {
-        //check if poem has already been written
+        // check if poem has already been written
         for (Poem poem : poems) {
             if (!writtenPoems.contains(poem)) {
                 try {
@@ -135,13 +176,13 @@ public class DataBaseManage {
                     fw.write(msg);
                     int index = 1;
                     fw.write("Number of poems found in current search: " + poems.size() + "\n");
-                        fw.write("-----------------" + index + "----------------\n");
-                        fw.write(poem.toString() + "\n");
-                        index++;
-                        
-                        //add poem to poems that are already written in our anthology
-                        
-                        writtenPoems.add(poem);
+                    fw.write("-----------------" + index + "----------------\n");
+                    fw.write(poem.toString() + "\n");
+                    index++;
+
+                    // add poem to poems that are already written in our anthology
+
+                    writtenPoems.add(poem);
                     fw.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -149,7 +190,7 @@ public class DataBaseManage {
 
             }
 //            else {
-//                //add message: "this poem is already in your anthology"
+//                //add message: "The poem is already in your anthology"
 //                System.out.println(poem.getTitle() + " by " + poem.getAuthor() + " is already in your anthology.");
 //            }
 
