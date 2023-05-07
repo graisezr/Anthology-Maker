@@ -41,6 +41,18 @@ public class DataBaseManage {
     }
 
     public static HashMap<String, List<Poem>> createAuthorMap(List<Poem> poems) {
+        HashMap<String, List<Poem>> authorMap=new  HashMap<String, List<Poem>>();
+
+        for(Poem p:poems){
+            List<Poem> subPoems=null;
+            if(authorMap.containsKey(p.getAuthor())){
+                subPoems=authorMap.get(p.getAuthor());
+            }else{
+                subPoems=new ArrayList<Poem>();
+            }
+            subPoems.add(p.getAuthor());
+            authorMap.put(p.getAuthor(),subPoems);
+        }
         return authorMap;
 //        if (map.containsKey(author)) {
 //            poems = map.get(author);
