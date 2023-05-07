@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Poem object class.
+ * Poem object class. Encapsulates the attributes of a poem.
  * 
  * @author
  *

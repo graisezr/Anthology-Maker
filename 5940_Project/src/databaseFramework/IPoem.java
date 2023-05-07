@@ -1,3 +1,7 @@
+/**
+ * Interface for Poem.
+ */
+
 package databaseFramework;
 
 import java.util.Arrays;
@@ -6,6 +10,8 @@ import java.util.HashSet;
 import java.util.Map;
 
 public interface IPoem {
+    
+ 
     
     // Construct the Map of main themes to words
     public static Map<String, HashSet<String>> THEMES = new HashMap<>() {{
