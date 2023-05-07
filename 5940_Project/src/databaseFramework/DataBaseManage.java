@@ -1,6 +1,6 @@
 package databaseFramework;
 
-//Build 3 Hashmaps 
+//Build 3 Hashmaps
 
 //Hashmap 1: Maps authors to list of poems of that author [DONE]
 //Hashmap 2: Maps themes to lisf of poems of that theme
@@ -35,7 +35,7 @@ public class DataBaseManage {
 
     public DataBaseManage() {
         this.authorMap = createAuthorMap(allPoems);
-        this.themeMap = createThemeMap(allPoems);
+//      this.themeMap = createThemeMap(allPoems);
         this.formMap = createFormMap(allPoems);
 
     }
@@ -54,11 +54,23 @@ public class DataBaseManage {
 //    }
     }
 
-    public static HashMap<String, List<Poem>> createThemeMap(List<Poem> poems) {
-        return themeMap;
-        // theme variable: this.theme
+    public static void createThemeMap(List<Poem> poems) {
+        // Iterate through the list of poems
+        for (Poem poem : poems) {
+            // Iterate through this poem's theme(s)
+            for (String theme : poem.getThemes()) {
+                // If this theme already featured in themeMap, add this poem as value
+                if (themeMap.containsKey(theme)) {
+                    themeMap.get(theme).add(poem);
+                } else {
+                    // Otherwise add both the theme and poem to the themeMap
+                    List<Poem> themePoemList = new ArrayList<>();
+                    themePoemList.add(poem);
+                    themeMap.put(theme, themePoemList);
+                }
+            }
+        }
 
-    }
 
     public static HashMap<String, List<Poem>> createFormMap(List<Poem> poems) {
         // create a hashmap that maps theme to poem

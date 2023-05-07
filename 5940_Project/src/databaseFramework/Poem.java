@@ -6,12 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Poem object class.
+ * Poem object class. Encapsulates the attributes of a poem
  * 
  * @author
  *
  */
-public class Poem {
+public class Poem implements IPoem {
+    
     private String author;
     private String title;
     private String text;
@@ -29,15 +30,53 @@ public class Poem {
         this.author = author;
         this.title = title;
         this.text = textString;
-        this.themes = findTheme(textString);
+        this.themes = determineThemes(textString);
         this.form = findPoemForm(textString);
 
     }
-
-    public List<String> findTheme(String text) {
-        // list of constant words
-        List<String> listOfThemes = new ArrayList<String>();
-        return listOfThemes;
+    
+    /*
+     * Methods
+     */
+    
+    /*
+     * Determining a poem's theme.
+     */
+    
+    /**
+     * Gets the themes of a poem by comparing each word of the
+     * poem with the constant HashSet of words associated to a
+     * theme.
+     * @param body of a given poem. 
+     * @return the list of a poem's theme(s). 
+     */
+    public List<String> determineThemes(String body) {
+        // Initialize list of themes to be returned
+        List<String> themes = new ArrayList<String>();
+        
+        // Convert body into an array of words w/o non-alphanumeric characters
+        String[] words = body.replaceAll("[^a-zA-Z0-9\\s]", "").split("\\s+");
+        
+        // Iterate through every word of the poem
+        for (String word : words) {
+            // Convert this word into lower case
+            word.toLowerCase();
+            // Iterate through the keys in the THEMES map
+            for (String theme : THEMES.keySet()) {
+                // If current word belongs to current theme
+                if (THEMES.get(theme).contains(word)) {
+                    // Add this theme to the list of themes
+                    themes.add(theme);
+                }
+            }
+        }
+        
+        // If no words belonged to any theme, add the theme 'other' to the list
+        if (themes.isEmpty()) {
+            themes.add(THEMESARRAY[THEMESARRAY.length - 1]);
+        }
+        
+        return themes;
     }
 
     /**
@@ -48,6 +87,7 @@ public class Poem {
      * @return poetic form
      */
     
+
     public String findPoemForm(String poem) {
         System.out.println(this.getTitle());
         List<String> lines = Arrays.asList(poem.split("\\r?\\n"));
@@ -177,6 +217,41 @@ public class Poem {
         return count;
     }
 
+    public String findForm(String text) {
+
+        int numberOfLines = 0;
+
+        for (int i = 0; i < text.length(); i++) {
+            if (text.charAt(i) == '\n') {
+                numberOfLines++;
+            }
+        }
+        // add 1 to account for the last line
+        numberOfLines++;
+
+        switch (numberOfLines) {
+        case 1:
+            return "Monostich";
+        case 2:
+            return "Couplet";
+        case 3:
+            return "Tercet";
+        case 4:
+            return "Quatrain";
+        case 5:
+            return "Cinquain";
+        case 6:
+            return "Sestet";
+        case 8:
+            return "Octave";
+        case 14:
+            return "Sonnet";
+        default:
+            return "Free verse";
+        }
+
+    }
+    
     ///////////////////////////
 
 //    public int findStanzas(String text) {
@@ -219,6 +294,7 @@ public class Poem {
 //        return syllables;
 //    }
 
+
     public String getAuthor() {
         return author;
     }
@@ -229,6 +305,10 @@ public class Poem {
 
     public String getTextString() {
         return text;
+    }
+    
+    public List<String> getThemes() {
+        return this.themes;
     }
 
     public String getForm() {
