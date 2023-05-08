@@ -37,6 +37,18 @@ public class DataBaseManageTest {
         expectedTitle = "Love Sonnet XVII";
         assertEquals(expectedTitle, db.getAllPoems().get(1).getTitle());
     }
+   
+    /* ----------------------------------------------------------------------
+     * Tests for createThemeMap()
+     * ----------------------------------------------------------------------
+     */
+
+    @Test
+    public void testCreateThemeMap() {
+        List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
+        HashMap<String, List<Poem>> map=DataBaseManage.createAuthorMap(poems);
+        assertTrue(map.size() > 0);
+    }
     
     /* ----------------------------------------------------------------------
      * Tests for determineThemes()
@@ -56,6 +68,7 @@ public class DataBaseManageTest {
         expectedThemes.add("death");
         assertEquals(expectedThemes, db.getAllPoems().get(1).getThemes());
     }
+
     /* ----------------------------------------------------------------------
      * Tests for createAuthorMap()
      * ----------------------------------------------------------------------
@@ -66,18 +79,6 @@ public class DataBaseManageTest {
         List<Poem> poems =CSVFileReader.readCSVFile("poem_data.csv");
         HashMap<String, List<Poem>> map=DataBaseManage.createAuthorMap(poems);
         assertTrue(map.size()>0);
-    }
-    
-    /* ----------------------------------------------------------------------
-     * Tests for createThemeMap()
-     * ----------------------------------------------------------------------
-     */
-
-    @Test
-    public void testCreateThemeMap() {
-        List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
-        HashMap<String, List<Poem>> map=DataBaseManage.createAuthorMap(poems);
-        assertTrue(map.size() > 0);
     }
     
     /* ----------------------------------------------------------------------
