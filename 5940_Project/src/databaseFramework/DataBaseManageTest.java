@@ -39,18 +39,6 @@ public class DataBaseManageTest {
     }
     
     /* ----------------------------------------------------------------------
-     * Tests for createAuthorMap()
-     * ----------------------------------------------------------------------
-     */
-
-    @Test
-    public void testCreateAuthorMap() {
-        List<Poem> poems =CSVFileReader.readCSVFile("poem_data.csv");
-        HashMap<String, List<Poem>> map=DataBaseManage.createAuthorMap(poems);
-        assertTrue(map.size()>0);
-    }
-    
-    /* ----------------------------------------------------------------------
      * Tests for determineThemes()
      * ----------------------------------------------------------------------
      */
@@ -67,6 +55,17 @@ public class DataBaseManageTest {
         // Poem 2: "Love Sonnet XVII" (should contain word love and soul (deathWords))
         expectedThemes.add("death");
         assertEquals(expectedThemes, db.getAllPoems().get(1).getThemes());
+    }
+    /* ----------------------------------------------------------------------
+     * Tests for createAuthorMap()
+     * ----------------------------------------------------------------------
+     */
+
+    @Test
+    public void testCreateAuthorMap() {
+        List<Poem> poems =CSVFileReader.readCSVFile("poem_data.csv");
+        HashMap<String, List<Poem>> map=DataBaseManage.createAuthorMap(poems);
+        assertTrue(map.size()>0);
     }
     
     /* ----------------------------------------------------------------------
