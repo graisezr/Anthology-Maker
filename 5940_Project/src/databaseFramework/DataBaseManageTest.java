@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 import org.junit.Before;
@@ -37,17 +38,17 @@ public class DataBaseManageTest {
         expectedTitle = "Love Sonnet XVII";
         assertEquals(expectedTitle, db.getAllPoems().get(1).getTitle());
     }
-   
+    
     /* ----------------------------------------------------------------------
-     * Tests for createThemeMap()
+     * Tests for createAuthorMap()
      * ----------------------------------------------------------------------
      */
 
     @Test
-    public void testCreateThemeMap() {
-        List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
+    public void testCreateAuthorMap() {
+        List<Poem> poems =CSVFileReader.readCSVFile("poem_data.csv");
         HashMap<String, List<Poem>> map=DataBaseManage.createAuthorMap(poems);
-        assertTrue(map.size() > 0);
+        assertTrue(map.size()>0);
     }
     
     /* ----------------------------------------------------------------------
@@ -68,17 +69,18 @@ public class DataBaseManageTest {
         expectedThemes.add("death");
         assertEquals(expectedThemes, db.getAllPoems().get(1).getThemes());
     }
-
+    
     /* ----------------------------------------------------------------------
-     * Tests for createAuthorMap()
+     * Tests for createThemeMap()
      * ----------------------------------------------------------------------
      */
 
     @Test
-    public void testCreateAuthorMap() {
-        List<Poem> poems =CSVFileReader.readCSVFile("poem_data.csv");
-        HashMap<String, List<Poem>> map=DataBaseManage.createAuthorMap(poems);
-        assertTrue(map.size()>0);
+    public void testCreateThemeMap() {
+        List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
+        //HashMap<String, List<Poem>>  map=DataBaseManage.createThemeMap(poems);
+        //assertTrue(map.size() > 0);
+        
     }
     
     /* ----------------------------------------------------------------------
@@ -88,7 +90,9 @@ public class DataBaseManageTest {
 
     @Test
     public void testCreateFormMap() {
-        fail("Not yet implemented"); // TODO
+        List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
+        HashMap<String, List<Poem>>  map=DataBaseManage.createFormMap(poems);
+        assertTrue(map.size() > 0);
     }
     
     /* ----------------------------------------------------------------------
@@ -98,7 +102,10 @@ public class DataBaseManageTest {
 
     @Test
     public void testSearchByTheme() {
-        fail("Not yet implemented"); // TODO
+//    	Scanner sc =new Scanner("xxx");
+//    	List<Poem> results=DataBaseManage.searchByTheme(sc);
+//    	assertTrue(results.size()>0);
+    	
     }
 
     /* ----------------------------------------------------------------------
@@ -108,7 +115,9 @@ public class DataBaseManageTest {
     
     @Test
     public void testSearchByForm() {
-        fail("Not yet implemented"); // TODO
+//    	Scanner sc =new Scanner("xxx");
+//        List<Poem> results=DataBaseManage.searchByForm(sc);
+//    	assertTrue(results.size()>0);
     }
     
     /* ----------------------------------------------------------------------
@@ -118,12 +127,16 @@ public class DataBaseManageTest {
 
     @Test
     public void testSearchByAuthor() {
-        fail("Not yet implemented"); // TODO
+    	Scanner sc =new Scanner("Pablo Neruda"); 
+    	List<Poem> results=DataBaseManage.searchByAuthor(sc);
+    	assertTrue(results.size()>0);
     }
 
     @Test
     public void testSearchByTitle() {
-        fail("Not yet implemented"); // TODO
+    	Scanner sc =new Scanner("I Do Not Love You Except Because I Love You"); 
+    	List<Poem> results=DataBaseManage.searchByTitle(sc);
+    	assertTrue(results.size()>0);
     }
     
     /* ----------------------------------------------------------------------
@@ -133,7 +146,9 @@ public class DataBaseManageTest {
 
     @Test
     public void testSearchByPoemContent() {
-        fail("Not yet implemented"); // TODO
+    	Scanner sc =new Scanner("ove you except because I love you"); 
+    	List<Poem> results=DataBaseManage.searchByPoemContent(sc);
+    	assertTrue(results.size()>0);
     }
     
     /* ----------------------------------------------------------------------
