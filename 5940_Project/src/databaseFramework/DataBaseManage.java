@@ -11,6 +11,12 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+/**
+ * DataBaseManage class that stores Poem data.
+ * 
+ * @author
+ *
+ */
 public class DataBaseManage extends IPoem {
 
     /*
@@ -85,17 +91,6 @@ public class DataBaseManage extends IPoem {
             authorMap.put(poem.getAuthor(), poemList);
         }
         return authorMap;
-
-//        if (map.containsKey(author)) {
-//            poems = map.get(author);
-//        } else {
-//            //if author does not exist yet, create a new list of poems
-//            poems = new ArrayList<Poem>();
-//        }
-//        //create new Poem object and add it to list of poems associated with that author
-//        poems.add(new Poem(author, title, content));
-//        map.put(author, poems);
-//    }
     }
 
     /**
@@ -124,12 +119,10 @@ public class DataBaseManage extends IPoem {
                 }
             }
         }
-
         // If no words belonged to any theme, add the theme 'other' to the list
         if (themes.isEmpty()) {
             themes.add(getThemesArray()[getThemesArray().length - 1]);
         }
-
         return themes;
     }
 
@@ -194,7 +187,6 @@ public class DataBaseManage extends IPoem {
             poemList.add(poem);
             map.put(form, poemList);
         }
-
         return map;
     }
 
@@ -217,7 +209,6 @@ public class DataBaseManage extends IPoem {
                 poems.addAll(themeMap.get(theme));
             }
         }
-
         return poems;
     }
 
@@ -237,7 +228,6 @@ public class DataBaseManage extends IPoem {
                 poems.addAll(formMap.get(key));
             }
         }
-
         return poems;
     }
 
@@ -326,12 +316,21 @@ public class DataBaseManage extends IPoem {
         return this.allPoems;
     }
 
+    // Abigail
+    public HashMap<String, List<Poem>> getAuthorMap() {
+        return authorMap;
+    }
+
+    public HashMap<String, List<Poem>> getThemeMap() {
+        return themeMap;
+    }
+
+    public HashMap<String, List<Poem>> getFormMap() {
+        return formMap;
+    }
+
     public HashSet<Poem> getWrittenOutPoems() {
         return this.writtenOutPoems;
     }
 
-    @Override
-    public HashMap<String, HashSet<String>> getThemesToWords() {
-        return this.themesToWords;
-    }
 }
