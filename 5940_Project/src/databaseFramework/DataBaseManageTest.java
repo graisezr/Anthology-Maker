@@ -91,10 +91,9 @@ public class DataBaseManageTest {
     public void testCreateThemeMap() {
         DataBaseManage dbm = new DataBaseManage();
 //        List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
-        dbm.getThemeMap();
-        dbm.getAllPoems();
-        // HashMap<String, List<Poem>> map=DataBaseManage.createThemeMap(poems);
-        // assertTrue(map.size() > 0);
+   
+        HashMap<String, List<Poem>> map= dbm.getThemeMap();
+        assertTrue(map.size() > 0);
     }
 
     /*
@@ -106,7 +105,7 @@ public class DataBaseManageTest {
 
     @Test
     public void testCreateFormMap() {
-        List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
+    	List<Poem> poems = CSVFileReader.readCSVFile("poem_data.csv");
         HashMap<String, List<Poem>> map = DataBaseManage.createFormMap(poems);
         assertTrue(map.size() > 0);
     }
@@ -120,9 +119,9 @@ public class DataBaseManageTest {
 
     @Test
     public void testSearchByTheme() {
-//      Scanner sc =new Scanner("xxx");
-//      List<Poem> results=DataBaseManage.searchByTheme(sc);
-//      assertTrue(results.size()>0);
+    	Scanner sc =new Scanner("love");
+    	List<Poem> results=DataBaseManage.searchByTheme(sc);
+    	assertTrue(results.size()>0);
 
     }
 
