@@ -19,7 +19,7 @@ public class Poem extends IPoem {
     private String title;
     private String text;
     private Set<String> themes;
-    
+
     private String form;
     private int lineCount;
     private int stanzaCount;
@@ -40,58 +40,13 @@ public class Poem extends IPoem {
 
     /**
      * Method finds the poem's form. In the process, sets lineCount, stanzaCount,
-     * standaLineCounts
-     *
-     
-    /**
-     * Gets the themes of a poem by comparing each word of the poem with the
-     * constant HashSet of words associated to a theme.
-     * 
-     * @param body of a given poem.
-     * @return the list of a poem's theme(s).
-     */
-    public Set<String> determineThemes(String body) {
-        // Initialize list of themes to be returned
-
-        Set<String> themes = new HashSet<String>();
-
-        // Convert body into an array of words w/o non-alphanumeric characters
-        String[] words = body.replaceAll("[^a-zA-Z0-9\\s]", "").split("\\s+");
-
-        // Iterate through every word of the poem
-        for (String word : words) {
-            // Convert this word into lower case
-            word.toLowerCase();
-            // Iterate through the keys in the THEMES map
-            for (String theme : getThemesToWords().keySet()) {
-                // If current word belongs to current theme
-                if (getThemesToWords().get(theme).contains(word)) {
-                    // Add this theme to the list of themes
-                    themes.add(theme);
-                }
-            }
-        }
-
-        // If no words belonged to any theme, add the theme 'other' to the list
-        if (themes.isEmpty()) {
-
-            themes.add(getThemesArray()[getThemesArray().length - 1]);
-        }
-
-        return themes;
-    }
-
-    /**
-     * Method finds the poem's form. In the process, sets lineCount, stanzaCount,
      * standaLineCounts, as well as syllableCountsPerLine
      * 
-
      * @param poem
      * @return poetic form as a String
      */
 
     public String findPoemForm(String poem) {
-//        System.out.println(this.getTitle());
         List<String> lines = Arrays.asList(poem.split("\\r?\\n"));
         List<Integer> stanzaLineCounts = new ArrayList<>();
         List<List<Integer>> syllableCountsPerLine = new ArrayList<>();
@@ -121,9 +76,6 @@ public class Poem extends IPoem {
         this.stanzaLineCounts = stanzaLineCounts;
         this.syllableCountsPerLine = syllableCountsPerLine;
 
-//        System.out.println(
-//                "Stanza line counts: " + stanzaLineCounts + "\nSyllable counts per line: " + syllableCountsPerLine);
-
         switch (this.getLineCount()) {
         case 1:
             return "Monostich";
@@ -140,11 +92,32 @@ public class Poem extends IPoem {
         case 8:
             return "Octave";
         case 14:
-            return findSonnetType(this.stanzaLineCounts, this.stanzaCount);
+            return findSonnetType(this.stanzaLineCounts);
+        case 19:
+            return isVilanelle(this.stanzaLineCounts);
         default:
             return "Free Verse";
         }
 
+    }
+
+    /**
+     * This method is called in findPoemForm for a poem that has 19 lines to find
+     * out if the poem is a Vilanelle or not.
+     * 
+     * @param stanzaLineCounts
+     * @return Vilanelle type as a String (or Free Verse if Vilanelle criteria isn't
+     *         satisfied)
+     */
+    private String isVilanelle(List<Integer> stanzaLineCounts) {
+        List<Integer> vilanellePattern = Arrays.asList(3, 3, 3, 3, 3, 4);
+
+        if (stanzaLineCounts.size() == 6) {
+            if (stanzaLineCounts.equals(vilanellePattern)) {
+                return "Vilanelle";
+            }
+        }
+        return "Free Verse";
     }
 
     /**
@@ -153,20 +126,19 @@ public class Poem extends IPoem {
      * etc.).
      * 
      * @param stanzaLineCounts
-     * @param stanzaCount
      * @return Sonnet type as a String (or Free Verse if Sonnet criteria isn't
      *         satisfied)
      */
-    private String findSonnetType(List<Integer> stanzaLineCounts, int stanzaCount) {
+    private String findSonnetType(List<Integer> stanzaLineCounts) {
         List<Integer> petrarchanSonnetPattern1 = Arrays.asList(8, 6);
         List<Integer> petrarchanSonnetPattern2 = Arrays.asList(4, 4, 3, 3);
         List<Integer> shakeSpeareanSonnetPattern = Arrays.asList(4, 4, 4, 2);
 
-        if (stanzaCount == 2) {
+        if (stanzaLineCounts.size() == 2) {
             if (stanzaLineCounts.equals(petrarchanSonnetPattern1)) {
                 return "Petrarchan Sonnet";
             }
-        } else if (stanzaCount == 4) {
+        } else if (stanzaLineCounts.size() == 4) {
             if (stanzaLineCounts.equals(petrarchanSonnetPattern2)) {
                 return "Sonnet";
             } else if (stanzaLineCounts.equals(shakeSpeareanSonnetPattern)) {
@@ -248,11 +220,9 @@ public class Poem extends IPoem {
         return "Author: " + author + "\nTitle: " + title + "\n" + "\n" + text;
     }
 
-
     /*
      * Getters and Setters.
      */
-
 
     public String getAuthor() {
         return author;
@@ -282,6 +252,14 @@ public class Poem extends IPoem {
         return stanzaCount;
     }
 
+    public List<Integer> getStanzaLineCounts() {
+        return stanzaLineCounts;
+    }
+
+    public List<List<Integer>> getSyllableCountsPerLine() {
+        return syllableCountsPerLine;
+    }
+
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -293,7 +271,7 @@ public class Poem extends IPoem {
     public void setTextString(String textString) {
         this.text = textString;
     }
-    
+
     public void setThemes(Set<String> themes) {
         this.themes = themes;
     }

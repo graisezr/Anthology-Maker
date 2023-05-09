@@ -34,8 +34,8 @@ public class WebCrawler {
 
         try {
             FileWriter csvWriter = new FileWriter(csvFilePath);
-            //Write out header of CSV file
-            
+            // Write out header of CSV file
+
             csvWriter.append("Author");
             csvWriter.append(",");
             csvWriter.append("Title");
@@ -66,10 +66,9 @@ public class WebCrawler {
 
             // Launch Chrome browser
             WebDriver driver = new ChromeDriver(options);
-            
-            //increase timeout
-            driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(180));
 
+            // increase timeout
+            driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(180));
 
             // Have Chrome browser navigate through each page to obtain individual links of
             // poems on that page
