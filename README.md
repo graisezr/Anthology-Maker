@@ -40,7 +40,7 @@ Web Scraping Framework: implementing a web crawler to scrape data from website.
 - Data source is famouspoetsandpoems.com
 - Scrape author, poem title, and poem text
 - External libraries used: Selenium, WebDriver (ChromeDriver), SL4J
-- Write out scraped data into a CSV file
+- Write out scraped data into a CSV file (poem_data.csv)
 - each row in a CSV File represents a Poem Object
 - read by a CSV File Reader Class to generate our poetry “database”
 
